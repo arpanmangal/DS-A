@@ -1,0 +1,12 @@
+None;
+
+ASSIGNMENT 1(A): FABRIC BREAKUP
+Used the concept of stacks. Maintains a main stack of clothes called 'pile' in which all the values of clothes are stored as in a stack.
+Another array (stack) is maintained in which the maximum value's index is stored at top, then the index of next maximum value BELOW that cloth
+is stored and so on. Corresponding to each value is stored the number of cloth above it. Hence it takes O(1) time to pop the most favourite cloth.
+Adding cloth also takes O(1) time as we just compare it with the highest maximum.
+
+ASSIGNMENT 1(B): GROWABLE DEQUEUES
+The growable deque is implemented using arrays by assuming two indices low and high which are the first and last elements of the deque. If low becomes 
+zero we double the array and copy current contents into latter half of the new array while if high becomes sizeof(Array) - 1 we double size of array and
+copy the current contents into the former half of the array. 

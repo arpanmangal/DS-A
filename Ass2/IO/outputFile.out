@@ -1,0 +1,103 @@
+16 16
+ -1
+ 8 15 -1
+ 4 7 12 15 -1
+ 2 3 6 7 10 11 14 15 -1
+ 1 1 3 3 5 5 7 7 9 9 11 11 13 13 15 15 -1
+ 0 15 -1
+ 0 0 2 2 4 4 6 6 8 8 10 10 12 12 14 14 -1
+ 0 1 4 5 8 9 12 13 -1
+ 0 3 8 11 -1
+ 0 7 -1
+ -1
+ 2 2 5 5 8 8 11 11 14 14 -1
+ 0 1 3 4 6 7 9 10 12 13 15 15 -1
+ 1 1 4 4 7 7 10 10 13 13 -1
+ 0 0 2 3 5 6 8 9 11 12 14 15 -1
+ 0 0 5 7 9 10 15 15 -1
+16 16
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+ 0 15 -1
+lalalala
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 15 'false' 1 , -1 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 8 'true' 1 , -1 'false'  over  say true  hoi  || 15 'false' 2 , 8 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 4 'true' 1 , -1 'false'  over  say true  hoi  || 7 'false' 2 , 4 'true'  over  say false  hay  || 12 'true' 1 , 7 'false'  over  say true  hoi  || 15 'false' 2 , 12 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 2 'true' 1 , -1 'false'  over  say true  hoi  || 3 'false' 2 , 2 'true'  over  say false  hay  || 6 'true' 1 , 3 'false'  over  say true  hoi  || 7 'false' 2 , 6 'true'  over  say false  hay  || 10 'true' 1 , 7 'false'  over  say true  hoi  || 11 'false' 2 , 10 'true'  over  say false  hay  || 14 'true' 1 , 11 'false'  over  say true  hoi  || 15 'false' 2 , 14 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 1 'true' 1 , -1 'false'  over  say true  hoi  || 1 'false' 2 , 1 'true'  over  say false  hay  || 3 'true' 1 , 1 'false'  over  say true  hoi  || 3 'false' 2 , 3 'true'  over  say false  hay  || 5 'true' 1 , 3 'false'  over  say true  hoi  || 5 'false' 2 , 5 'true'  over  say false  hay  || 7 'true' 1 , 5 'false'  over  say true  hoi  || 7 'false' 2 , 7 'true'  over  say false  hay  || 9 'true' 1 , 7 'false'  over  say true  hoi  || 9 'false' 2 , 9 'true'  over  say false  hay  || 11 'true' 1 , 9 'false'  over  say true  hoi  || 11 'false' 2 , 11 'true'  over  say false  hay  || 13 'true' 1 , 11 'false'  over  say true  hoi  || 13 'false' 2 , 13 'true'  over  say false  hay  || 15 'true' 1 , 13 'false'  over  say true  hoi  || 15 'false' 2 , 15 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 15 'false' 2 , 0 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 0 'false' 2 , 0 'true'  over  say false  hay  || 2 'true' 1 , 0 'false'  over  say true  hoi  || 2 'false' 2 , 2 'true'  over  say false  hay  || 4 'true' 1 , 2 'false'  over  say true  hoi  || 4 'false' 2 , 4 'true'  over  say false  hay  || 6 'true' 1 , 4 'false'  over  say true  hoi  || 6 'false' 2 , 6 'true'  over  say false  hay  || 8 'true' 1 , 6 'false'  over  say true  hoi  || 8 'false' 2 , 8 'true'  over  say false  hay  || 10 'true' 1 , 8 'false'  over  say true  hoi  || 10 'false' 2 , 10 'true'  over  say false  hay  || 12 'true' 1 , 10 'false'  over  say true  hoi  || 12 'false' 2 , 12 'true'  over  say false  hay  || 14 'true' 1 , 12 'false'  over  say true  hoi  || 14 'false' 2 , 14 'true'  over  say false  hay  || 15 'false' 1 , 14 'false'  over  hey 
+clubbing
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 1 'false' 2 , 0 'true'  over  say false  hay  || 4 'true' 1 , 1 'false'  over  say true  hoi  || 5 'false' 2 , 4 'true'  over  say false  hay  || 8 'true' 1 , 5 'false'  over  say true  hoi  || 9 'false' 2 , 8 'true'  over  say false  hay  || 12 'true' 1 , 9 'false'  over  say true  hoi  || 13 'false' 2 , 12 'true'  over  say false  hay  || 15 'false' 1 , 13 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 3 'false' 2 , 0 'true'  over  say false  hay  || 8 'true' 1 , 3 'false'  over  say true  hoi  || 11 'false' 2 , 8 'true'  over  say false  hay  || 15 'false' 1 , 11 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 7 'false' 2 , 0 'true'  over  say false  hay  || 15 'false' 1 , 7 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 15 'false' 1 , -1 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 2 'true' 1 , -1 'false'  over  say true  hoi  || 2 'false' 2 , 2 'true'  over  say false  hay  || 5 'true' 1 , 2 'false'  over  say true  hoi  || 5 'false' 2 , 5 'true'  over  say false  hay  || 8 'true' 1 , 5 'false'  over  say true  hoi  || 8 'false' 2 , 8 'true'  over  say false  hay  || 11 'true' 1 , 8 'false'  over  say true  hoi  || 11 'false' 2 , 11 'true'  over  say false  hay  || 14 'true' 1 , 11 'false'  over  say true  hoi  || 14 'false' 2 , 14 'true'  over  say false  hay  || 15 'false' 1 , 14 'false'  over  hey 
+clubbing
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 1 'false' 2 , 0 'true'  over  say false  hay  || 3 'true' 1 , 1 'false'  over  say true  hoi  || 4 'false' 2 , 3 'true'  over  say false  hay  || 6 'true' 1 , 4 'false'  over  say true  hoi  || 7 'false' 2 , 6 'true'  over  say false  hay  || 9 'true' 1 , 7 'false'  over  say true  hoi  || 10 'false' 2 , 9 'true'  over  say false  hay  || 12 'true' 1 , 10 'false'  over  say true  hoi  || 13 'false' 2 , 12 'true'  over  say false  hay  || 15 'true' 1 , 13 'false'  over  say true  hoi  || 15 'false' 2 , 15 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 1 'true' 1 , -1 'false'  over  say true  hoi  || 1 'false' 2 , 1 'true'  over  say false  hay  || 4 'true' 1 , 1 'false'  over  say true  hoi  || 4 'false' 2 , 4 'true'  over  say false  hay  || 7 'true' 1 , 4 'false'  over  say true  hoi  || 7 'false' 2 , 7 'true'  over  say false  hay  || 10 'true' 1 , 7 'false'  over  say true  hoi  || 10 'false' 2 , 10 'true'  over  say false  hay  || 13 'true' 1 , 10 'false'  over  say true  hoi  || 13 'false' 2 , 13 'true'  over  say false  hay  || 15 'false' 1 , 13 'false'  over  hey 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 0 'false' 2 , 0 'true'  over  say false  hay  || 2 'true' 1 , 0 'false'  over  say true  hoi  || 3 'false' 2 , 2 'true'  over  say false  hay  || 5 'true' 1 , 3 'false'  over  say true  hoi  || 6 'false' 2 , 5 'true'  over  say false  hay  || 8 'true' 1 , 6 'false'  over  say true  hoi  || 9 'false' 2 , 8 'true'  over  say false  hay  || 11 'true' 1 , 9 'false'  over  say true  hoi  || 12 'false' 2 , 11 'true'  over  say false  hay  || 14 'true' 1 , 12 'false'  over  say true  hoi  || 15 'false' 2 , 14 'true'  over  say false  hoa 
+ Gonna start printing 
+ || 0 'true' 0 , -1 'false'  over  holy  cow  || 0 'true' 1 , -1 'false'  over  say true  hoi  || 0 'false' 2 , 0 'true'  over  say false  hay  || 5 'true' 1 , 0 'false'  over  say true  hoi  || 7 'false' 2 , 5 'true'  over  say false  hay  || 9 'true' 1 , 7 'false'  over  say true  hoi  || 10 'false' 2 , 9 'true'  over  say false  hay  || 15 'true' 1 , 10 'false'  over  say true  hoi  || 15 'false' 2 , 15 'true'  over  say false  hoa 
+16 16
+ -1
+ 8 15 -1
+ 4 7 12 15 -1
+ 2 3 6 7 10 11 14 15 -1
+ 1 1 3 3 5 5 7 7 9 9 11 11 13 13 15 15 -1
+ 0 15 -1
+ 0 0 2 2 4 4 6 6 8 8 10 10 12 12 14 -1
+ 0 1 4 5 8 9 12 13 15 -1
+ 0 3 8 11 15 -1
+ 0 7 15 -1
+ -1
+ 2 2 5 5 8 8 11 11 14 -1
+ 0 1 3 4 6 7 9 10 12 13 15 15 -1
+ 1 1 4 4 7 7 10 10 13 13 15 -1
+ 0 0 2 3 5 6 8 9 11 12 14 15 -1
+ 0 0 5 7 9 10 15 15 -1
+16 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0
+ 1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0
+ 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0
+ 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1
+ 0 0 1 1 0 0 1 1 0 0 1 1 0 0 0 0 0
+ 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 0 1 1 0 1 1 0 1 1 0 1 1 1 1
+ 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0
+ 1 0 1 1 0 1 1 0 1 1 0 1 1 0 0 0 0
+ 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0
+ 0 1 1 1 1 0 0 0 1 0 0 1 1 1 1 0
+ALL TESTS SUCCESSFUL! YAYY!
