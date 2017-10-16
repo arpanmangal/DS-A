@@ -71,7 +71,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
         int comp = key.compareTo(this.Keys.get(mid));
         if (comp >= 0) {
-            // val >= mid
+            // key >= mid => in right half
             if (mid == end) {
                 // last elem
                 return end + 1;
@@ -79,7 +79,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 return search(key, mid + 1, end);
             }
         } else{
-            // val < mid
+            // key < mid
             if (mid == start) {
                 // first elem
                 return start;
@@ -132,7 +132,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             rightHalf.parentIndex = 1;
 
             // System.out.println("adjusting self");
-            this.numKeys = t - 1; // just decrease the size, remaining values remain as garbage
+            this.numKeys = t - 1; // just decrease the size, remaining values remain as garbage <= this is problem
             this.parentNode = root;
             this.parentIndex = 0;
 
@@ -240,6 +240,150 @@ public class BNode<Key extends Comparable<Key>,Value> {
         }
 
         return data;
+    }
+
+    // deleting a node
+    private void boomCell(BNode<Key, Value> node, int index) {
+        // boom it, don't care about rotation etc.
+        if (node == null) return; // no node to boom
+        if (!node.haveChildren) {
+            // leaf node
+            node.numKeys--;
+            node.Keys.remove(index);
+            node.Values.remove(index);
+            // for (int i = index; i < node.numKeys; i++) {
+            //     Keys.
+            // }
+        } else {
+            // find inorder successor and swap with that
+            BNode<Key, Value> currentNode = node.children.get(index + 1);
+            while(currentNode.haveChildren) currentNode = currentNode.children.get(0);
+
+            // swap and delete it
+            node.Keys.set(index, currentNode.Keys.get(0));
+            node.Values.set(index, currentNode.Values.get(0));
+            
+            currentNode.Keys.remove(0);
+            currentNode.Values.remove(0);
+            currentNode.numKeys--;
+        }
+    }
+
+    public BNode<Key, Value> removeKey(Key key) {
+        // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
+        if (this.parentNode != null && this.numKeys < t) {
+            // do something to increase the keys
+            // check with nearby siblings
+            // control has reached me => neither my parents nor my siblings are free of the key
+            BNode<Key, Value> parent = this.parentNode;
+            if (this.parentIndex > 0 && parent.children.get(this.parentIndex - 1).numKeys >= t) {
+                // left sibling => do a right rotate
+                BNode<Key, Value> leftSib = parent.children.get(this.parentIndex - 1);
+                this.Keys.add(0, parent.Keys.get(this.parentIndex - 1));
+                this.Values.add(0, parent.Values.get(this.parentIndex - 1));
+                this.children.add(0, leftSib.children.get(leftSib.numKeys));
+                this.numKeys++;
+
+                parent.Keys.set(this.parentIndex - 1, leftSib.Keys.get(leftSib.numKeys - 1));
+                parent.Values.set(this.parentIndex - 1, leftSib.Values.get(leftSib.numKeys - 1));
+                leftSib.Keys.remove(numKeys - 1);
+                leftSib.Values.remove(numKeys - 1);
+                leftSib.children.remove(numKeys - 1);
+                leftSib.numKeys--;
+
+                return this;
+            } else if ((this.parentIndex < 2 * t - 1 && parent.children.get(this.parentIndex).numKeys >= t)) {
+                // right sibling => do a left rotate
+                BNode<Key, Value> rightSib = parent.children.get(this.parentIndex + 1);
+                this.Keys.add(0, parent.Keys.get(this.parentIndex));
+                this.Values.add(0, parent.Values.get(this.parentIndex));
+                this.children.add(0, rightSib.children.get(0));
+                this.numKeys++;
+
+                parent.Keys.set(this.parentIndex, rightSib.Keys.get(0));
+                parent.Values.set(this.parentIndex, rightSib.Values.get(0));
+                rightSib.Keys.remove(0);
+                rightSib.Values.remove(0);
+                rightSib.children.remove(0);
+                rightSib.numKeys--;
+
+                return this;
+            } else if (this.parentIndex > 0) {
+                // merge with left sibling
+                BNode<Key, Value> leftSib = parent.children.get(this.parentIndex - 1);
+                leftSib.Keys.add(parent.Keys.get(this.parentIndex - 1));
+                leftSib.Values.add(parent.Values.get(this.parentIndex - 1));
+                leftSib.Keys.addAll(this.Keys);
+                leftSib.Values.addAll(this.Values);
+                leftSib.children.addAll(this.children);
+                leftSib.numKeys = 2 * t - 1;
+                leftSib.parentNode = this.parentNode;
+                leftSib.parentIndex = this.parentIndex - 1;
+
+                this.numKeys = 0;
+                this.Keys.removeAllElements();
+                this.Values.removeAllElements();
+                this.children.removeAllElements();
+
+                parent.Keys.remove(this.parentIndex - 1);
+                parent.Values.remove(this.parentIndex - 1);
+                parent.children.remove(this.parentIndex);
+
+                return leftSib;
+            } else {
+                // merge with right sibling
+                BNode<Key, Value> rightSib = parent.children.get(this.parentIndex + 1);
+                this.Keys.add(parent.Keys.get(this.parentIndex));
+                this.Values.add(parent.Values.get(this.parentIndex));
+                this.Keys.addAll(rightSib.Keys);
+                this.Values.addAll(rightSib.Values);
+                this.children.addAll(rightSib.children);
+                this.numKeys = 2 * t - 1;
+                this.parentNode = rightSib.parentNode;
+                this.parentIndex = rightSib.parentIndex - 1;
+                
+                rightSib.numKeys = 0;
+                rightSib.Keys.removeAllElements();
+                rightSib.Values.removeAllElements();
+                rightSib.children.removeAllElements();
+
+                parent.Keys.remove(this.parentIndex);
+                parent.Values.remove(this.parentIndex);
+                parent.children.remove(this.parentIndex + 1);
+
+                return this;
+            }
+        } else {
+            // root or a t key node, find and boom
+            int succ = this.searchVal(key);
+            if (succ == 0) {
+                // not to be found in me
+                if (this.haveChildren) {
+                    return this.children.get(0);
+                } else {
+                    // nothing to delete
+                    return null;
+                }
+            } else {
+                if (this.Keys.get(succ - 1) == key) {
+                    // delete it
+                    boomCell(this, succ - 1);
+                    if (this.parentNode == null && numKeys == 0) {
+                        // root node made empty
+                        return null; // done
+                    }
+                    return this; // as more could have been left
+                } else {
+                    // no one in this node
+                    if (this.haveChildren) {
+                        return this.children.get(succ);
+                    } else {
+                        // nothing to delete
+                        return null;
+                    }
+                }
+            }
+        }
     }
 
     public String toString() {

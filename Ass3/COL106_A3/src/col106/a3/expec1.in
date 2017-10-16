@@ -53,4 +53,7 @@ search i
 [h]
 search d
 [b, c, e, f]
+search n
+search a
+search b
 exit

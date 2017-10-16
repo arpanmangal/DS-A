@@ -93,7 +93,19 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
 
     @Override
     public void delete(Key key) throws IllegalKeyException {
-        throw new RuntimeException("Not Implemented");
+        if (!(key != null)) {
+            // illegal => remember to implement it later
+            throw new IllegalKeyException();
+        }
+        BNode<Key, Value> currentNode = root;
+        while(currentNode != null) {
+            // delete until all not deleted
+            if (currentNode == root){
+                root = currentNode = currentNode.removeKey(key);
+            } else {
+                currentNode = currentNode.removeKey(key);
+            }
+        }
     }
 
     @Override
