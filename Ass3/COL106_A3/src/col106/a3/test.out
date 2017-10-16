@@ -1,0 +1,590 @@
+ho
+in insert
+hi
+ho
+hi
+se
+getting location
+in searchVal in node ab
+in search
+1
+inserting
+in insert
+[a=b, a=c] 
+ho
+hi
+se
+getting location
+in searchVal in node ab
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+bre
+Breaking the root!
+Making right half
+adding last child
+adjusting self
+getting location
+in searchVal in node ac
+in search
+1
+going to child
+se
+getting location
+in searchVal in node ba
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node ac
+in search
+1
+going to child
+se
+getting location
+in searchVal in node ba
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node ac
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+2
+going to child
+se
+getting location
+in searchVal in node bd
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node ac
+in search
+in search
+2
+going to child
+se
+getting location
+in searchVal in node bd
+in search
+in search
+2
+inserting
+in insert
+[[a=b] , a=c, [b=a] , b=c, [b=d, b=e, b=g] ]
+ho
+hi
+se
+getting location
+in searchVal in node ac
+in search
+in search
+2
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+3
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+bre
+Breaking the root!
+Making right half
+adding last child
+adjusting self
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+2
+going to child
+se
+getting location
+in searchVal in node bd
+in search
+1
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] ], b=c, [[b=d, c=d] , b=e, [b=g] ]]
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+3
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] , b=e, [b=g, d=e, d=f] ], b=c, [[b=d, c=d] , b=e, [b=g, d=e, d=f] ]]
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+in search
+4
+going to child
+se
+getting location
+in searchVal in node df
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+in search
+5
+going to child
+se
+getting location
+in searchVal in node df
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] , b=e, [b=g, e=h] , e=d, [e=f] , d=e, [d=f, e=b, e=g] ], b=c, [[b=d, c=d] , b=e, [b=g, e=h] ]]
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+in search
+6
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+in search
+7
+going to child
+se
+getting location
+in searchVal in node df
+in search
+1
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] , b=e, [b=g] , e=h, [f=d] , e=b, [e=g] , e=d, [e=f] , d=e, [d=f, f=e] ], b=c, [[b=d, c=d] , b=e, [b=g] ]]
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] , b=e, [b=g, g=b, g=e] , e=h, [f=d] , e=b, [e=g] , e=d, [e=f] , d=e, [d=f, f=e] ], b=c, [[b=d, c=d] , b=e, [b=g, g=b, g=e] ]]
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+bre
+getting location
+in searchVal in node ac
+in search
+in search
+in search
+in search
+8
+going to child
+se
+getting location
+in searchVal in node df
+in search
+in search
+2
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+1
+inserting
+in insert
+ho
+hi
+se
+getting location
+in searchVal in node bc
+in search
+1
+going to child
+se
+getting location
+in searchVal in node be
+in search
+1
+going to child
+se
+getting location
+in searchVal in node bg
+in search
+in search
+2
+inserting
+in insert
+[[[a=b] , a=c, [b=a] , b=c, [b=d, c=d] , b=e, [b=g, h=i, i=h] , g=b, [g=e] , e=h, [f=d] , e=b, [e=g] , e=d, [e=f] , d=e, [d=f, f=e, h=e] ], b=c, [[b=d, c=d] , b=e, [b=g, h=i, i=h] ]]
+java.lang.RuntimeException: Not Implemented
+java.lang.RuntimeException: Not Implemented
+java.lang.RuntimeException: Not Implemented
+java.lang.RuntimeException: Not Implemented
+java.lang.RuntimeException: Not Implemented
+java.lang.RuntimeException: Not Implemented

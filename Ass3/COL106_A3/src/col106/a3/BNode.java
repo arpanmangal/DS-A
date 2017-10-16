@@ -20,6 +20,9 @@ public class BNode<Key extends Comparable<Key>,Value> {
         Keys = new Vector<Key>(b - 1);
         Values = new Vector<Value>(b - 1);
         children = new Vector<BNode<Key, Value>>(0);
+        haveChildren = false;
+        parentNode = null;
+        parentIndex = -1;
     }
 
     // setter functions
@@ -36,7 +39,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     // functions giving child information
     public BNode<Key, Value> getChild(int index) {
-        if (!haveChildren || index > numKeys + 1) {
+        if (!haveChildren || index > numKeys) { // changed form + 1
             return null;
         } else {
             return children.get(index);
@@ -57,11 +60,13 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     // functions used in inserting 
     public int searchVal(Key key) {
+        System.out.println("in searchVal in node " + this.Keys.get(0) + this.Values.get(0));
         // implements binary search to find val
         // returns index of immediate successor in whose left child do the insert
         return search(key, 0, this.numKeys - 1);
     }
     private int search(Key key, int start, int end) {
+        System.out.println("in search");
         int mid = (start + end) / 2;
 
         int comp = key.compareTo(this.Keys.get(mid));
@@ -84,13 +89,15 @@ public class BNode<Key extends Comparable<Key>,Value> {
         }
     }
     public BNode<Key, Value> breakNode() {
+        // System.out.println("in breaknode");
         // the node is full, so do a rotate or break it
         // t - 1 is the mid element
         if (this.parentNode == null) {
             // we are the full root
+            System.out.println("Breaking the root!");
             BNode<Key, Value> root = new BNode<Key, Value>(2 * t);
-            root.Keys.add(Keys.get(t - 1));
-            root.Values.add(Values.get(t - 1));
+            root.Keys.add(this.Keys.get(t - 1));
+            root.Values.add(this.Values.get(t - 1));
             root.numKeys = 1;
             root.haveChildren = true;
             root.parentNode = null; // since I am the root
@@ -102,6 +109,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             // }
 
             // make a new node with right half
+            System.out.println("Making right half");
             BNode<Key, Value> rightHalf = new BNode<Key, Value>(2 * t);
             for (int i = 0, lim = t - 1; i < lim; i++) { // last half t - 1 keys
                 rightHalf.Keys.add(this.Keys.get(t + i));
@@ -110,19 +118,22 @@ public class BNode<Key extends Comparable<Key>,Value> {
                     rightHalf.children.add(this.children.get(t + i));
                 }
             }
-            if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t));
+            System.out.println("adding last child");
+            if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t - 1));
             rightHalf.numKeys = t - 1;
             rightHalf.haveChildren = this.haveChildren;
             rightHalf.parentNode = root;
-            rightHalf.parentIndex = 0;
+            rightHalf.parentIndex = 1;
 
+            System.out.println("adjusting self");
             this.numKeys = t - 1; // just decrease the size, remaining values remain as garbage
             this.parentNode = root;
-            this.parentIndex = 1;
+            this.parentIndex = 0;
 
             root.children.add(this);
             root.children.add(rightHalf);
 
+            // System.out.println("Final Configuration: root = " + root.Keys.get(0) + root.children.get(0).Keys.get(0) + root.children.get(1).Keys.get(0));
             return root;
         }
 
@@ -141,15 +152,15 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 rightHalf.children.add(this.children.get(t + i));
             }
         }
-        if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t));
+        if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t - 1));
         rightHalf.numKeys = t - 1;
         rightHalf.haveChildren = this.haveChildren;
         rightHalf.parentNode = this.parentNode;
-        rightHalf.parentIndex = this.parentIndex;
+        rightHalf.parentIndex = this.parentIndex + 1;
 
         this.numKeys = t - 1; // just decrease the size, remaining values remain as garbage
         this.parentNode = this.parentNode;
-        this.parentIndex = this.parentIndex + 1;
+        this.parentIndex = this.parentIndex;
 
         this.parentNode.children.add(this.parentIndex + 1, rightHalf);
         return this.parentNode;
@@ -168,8 +179,39 @@ public class BNode<Key extends Comparable<Key>,Value> {
     }
 
     public void insert(Key key, Value val, int index) {
+        System.out.println("in insert");
+        // try {
+        //     System.out.println("this = " + this.Keys.get(0) + " insert " + key + " @ index " + index);
+        // } catch(ArrayIndexOutOfBoundsException e) {
+        //     System.out.println("PL Butwhy? " + e);
+        // }
         this.Keys.add(index, key);
         this.Values.add(index, val);
         this.numKeys++;
+    }
+
+
+    public String toString() {
+        // from https://www.javatpoint.com/StringBuilder-class
+        // System.out.println("root = " + this.Keys.get(0) + this.numKeys);
+        StringBuilder s = new StringBuilder("[");
+        for (int i = 0; i < numKeys; i++) {
+            if (this.haveChildren) {
+                s.append(this.children.get(i).toString());
+                s.append(", ");
+            }
+            s.append(this.Keys.get(i));
+            s.append("=");
+            s.append(this.Values.get(i));
+            s.append(", ");
+        }
+        if (this.haveChildren) {
+            s.append(this.children.get(this.numKeys).toString());
+            s.append("]");
+            return s.substring(0);
+        } else {
+            s.replace(s.length() - 2, s.length() - 1, "]");
+            return s.substring(0);
+        }
     }
 }
