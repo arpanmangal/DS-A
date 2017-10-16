@@ -60,13 +60,13 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     // functions used in inserting 
     public int searchVal(Key key) {
-        System.out.println("in searchVal in node " + this.Keys.get(0) + this.Values.get(0));
+        // System.out.println("in searchVal in node " + this.Keys.get(0) + this.Values.get(0));
         // implements binary search to find val
         // returns index of immediate successor in whose left child do the insert
         return search(key, 0, this.numKeys - 1);
     }
     private int search(Key key, int start, int end) {
-        System.out.println("in search");
+        // System.out.println("in search");
         int mid = (start + end) / 2;
 
         int comp = key.compareTo(this.Keys.get(mid));
@@ -94,7 +94,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
         // t - 1 is the mid element
         if (this.parentNode == null) {
             // we are the full root
-            System.out.println("Breaking the root!");
+            // System.out.println("Breaking the root!");
             BNode<Key, Value> root = new BNode<Key, Value>(2 * t);
             root.Keys.add(this.Keys.get(t - 1));
             root.Values.add(this.Values.get(t - 1));
@@ -109,23 +109,29 @@ public class BNode<Key extends Comparable<Key>,Value> {
             // }
 
             // make a new node with right half
-            System.out.println("Making right half");
+            // System.out.println("Making right half");
             BNode<Key, Value> rightHalf = new BNode<Key, Value>(2 * t);
             for (int i = 0, lim = t - 1; i < lim; i++) { // last half t - 1 keys
                 rightHalf.Keys.add(this.Keys.get(t + i));
                 rightHalf.Values.add(this.Values.get(t + i));
                 if (this.haveChildren) {
                     rightHalf.children.add(this.children.get(t + i));
+                    rightHalf.children.get(i).parentNode = rightHalf;
+                    rightHalf.children.get(i).parentIndex = i;
                 }
             }
-            System.out.println("adding last child");
-            if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t - 1));
+            // System.out.println("adding last child");
+            if (this.haveChildren) {
+                rightHalf.children.add(this.children.get(2 * t - 1));
+                rightHalf.children.get(t - 1).parentNode = rightHalf;
+                rightHalf.children.get(t - 1).parentIndex = t - 1;
+            }
             rightHalf.numKeys = t - 1;
             rightHalf.haveChildren = this.haveChildren;
             rightHalf.parentNode = root;
             rightHalf.parentIndex = 1;
 
-            System.out.println("adjusting self");
+            // System.out.println("adjusting self");
             this.numKeys = t - 1; // just decrease the size, remaining values remain as garbage
             this.parentNode = root;
             this.parentIndex = 0;
@@ -150,9 +156,15 @@ public class BNode<Key extends Comparable<Key>,Value> {
             rightHalf.Values.add(this.Values.get(t + i));
             if (this.haveChildren) {
                 rightHalf.children.add(this.children.get(t + i));
+                rightHalf.children.get(i).parentNode = rightHalf;
+                rightHalf.children.get(i).parentIndex = i;
             }
         }
-        if (this.haveChildren) rightHalf.children.add(this.children.get(2 * t - 1));
+        if (this.haveChildren) {
+            rightHalf.children.add(this.children.get(2 * t - 1));
+            rightHalf.children.get(t - 1).parentNode = rightHalf;
+            rightHalf.children.get(t - 1).parentIndex = t - 1;
+        }
         rightHalf.numKeys = t - 1;
         rightHalf.haveChildren = this.haveChildren;
         rightHalf.parentNode = this.parentNode;
@@ -179,7 +191,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
     }
 
     public void insert(Key key, Value val, int index) {
-        System.out.println("in insert");
+        // System.out.println("in insert");
         // try {
         //     System.out.println("this = " + this.Keys.get(0) + " insert " + key + " @ index " + index);
         // } catch(ArrayIndexOutOfBoundsException e) {
@@ -190,6 +202,45 @@ public class BNode<Key extends Comparable<Key>,Value> {
         this.numKeys++;
     }
 
+
+    public List<Value> searchKey(Key key) {
+        // traverse the node and get the key-value pairs for key = key
+        List<Value> data = new ArrayList<Value>();
+        int status = 0;
+        int comp;
+        for (int i = 0; i < numKeys; i++) {
+            comp = key.compareTo(this.Keys.get(i));
+            if (comp == 0) {
+                // key = val
+                status = 1;
+                if (this.haveChildren) {
+                    data.addAll(this.children.get(i).searchKey(key));
+                    // System.out.println("Going left of " + this.Keys.get(i) + this.Values.get(i));
+                }
+                data.add(this.Values.get(i));
+                // System.out.println("adding " + this.Values.get(i));
+            } else if (comp < 0) {
+                // key > val
+                if (status != 2) {
+                    if (this.haveChildren) {
+                        data.addAll(this.children.get(i).searchKey(key));
+                    }
+                }
+                status = 2;
+            }
+        }
+        // take care of last child
+        comp = key.compareTo(this.Keys.get(numKeys - 1));
+        if (comp >= 0) {
+            // key >= val
+            if (this.haveChildren) {
+                data.addAll(this.children.get(numKeys).searchKey(key));
+                // System.out.println("Going right of " + this.Keys.get(numKeys - 1) + this.Values.get(numKeys - 1));
+            }
+        }
+
+        return data;
+    }
 
     public String toString() {
         // from https://www.javatpoint.com/StringBuilder-class
@@ -210,7 +261,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             s.append("]");
             return s.substring(0);
         } else {
-            s.replace(s.length() - 2, s.length() - 1, "]");
+            s.replace(s.length() - 2, s.length(), "]");
             return s.substring(0);
         }
     }
