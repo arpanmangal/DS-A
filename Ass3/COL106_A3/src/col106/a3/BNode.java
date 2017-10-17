@@ -244,8 +244,10 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     // deleting a node
     private void boomCell(BNode<Key, Value> node, int index) {
+        System.out.println("Booming the cell: ");
         // boom it, don't care about rotation etc.
         if (node == null) return; // no node to boom
+        System.out.println("" + node.Keys.get(index) + node.Values.get(index));
         if (!node.haveChildren) {
             // leaf node
             node.numKeys--;
@@ -271,13 +273,16 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     public BNode<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
+        System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
         if (this.parentNode != null && this.numKeys < t) {
+            System.out.println("Node with insufficient Keys, Me: " + this.Keys.get(0) + this.Values.get(0) + this.parentNode.Keys.get(0) + this.parentNode.Values.get(0));
             // do something to increase the keys
             // check with nearby siblings
             // control has reached me => neither my parents nor my siblings are free of the key
             BNode<Key, Value> parent = this.parentNode;
             if (this.parentIndex > 0 && parent.children.get(this.parentIndex - 1).numKeys >= t) {
                 // left sibling => do a right rotate
+                System.out.println("doing a right rotate");
                 BNode<Key, Value> leftSib = parent.children.get(this.parentIndex - 1);
                 this.Keys.add(0, parent.Keys.get(this.parentIndex - 1));
                 this.Values.add(0, parent.Values.get(this.parentIndex - 1));
@@ -294,6 +299,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 return this;
             } else if ((this.parentIndex < 2 * t - 1 && parent.children.get(this.parentIndex).numKeys >= t)) {
                 // right sibling => do a left rotate
+                System.out.println("doing a left rotate");
                 BNode<Key, Value> rightSib = parent.children.get(this.parentIndex + 1);
                 this.Keys.add(0, parent.Keys.get(this.parentIndex));
                 this.Values.add(0, parent.Values.get(this.parentIndex));
@@ -310,12 +316,17 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 return this;
             } else if (this.parentIndex > 0) {
                 // merge with left sibling
+                System.out.println("doing merging with left sibling, my: "+  this.Keys.get(0) + this.Values.get(0));
                 BNode<Key, Value> leftSib = parent.children.get(this.parentIndex - 1);
+                System.out.println("parent: " + parent.Keys.get(0) + leftSib.Keys.get(0));
                 leftSib.Keys.add(parent.Keys.get(this.parentIndex - 1));
                 leftSib.Values.add(parent.Values.get(this.parentIndex - 1));
-                leftSib.Keys.addAll(this.Keys);
-                leftSib.Values.addAll(this.Values);
-                leftSib.children.addAll(this.children);
+                for (int i = 0; i < this.numKeys; i++) {
+                    leftSib.Keys.add(this.Keys.get(i));
+                    leftSib.Values.add(this.Values.get(i));
+                    if (this.haveChildren) leftSib.children.add(this.children.get(i));
+                }
+                if (this.haveChildren) leftSib.children.add(this.children.get(this.numKeys));
                 leftSib.numKeys = 2 * t - 1;
                 leftSib.parentNode = this.parentNode;
                 leftSib.parentIndex = this.parentIndex - 1;
@@ -329,15 +340,21 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 parent.Values.remove(this.parentIndex - 1);
                 parent.children.remove(this.parentIndex);
 
+                System.out.println("new node with first val: " + leftSib.Keys.get(0) + leftSib.Values.get(0) +
+                " mid-val " + leftSib.Keys.get(t - 1) + leftSib.Values.get(t - 1) +  " last val " + leftSib.Keys.get(2 * t - 2) + leftSib.Values.get(2 * t - 2));
                 return leftSib;
             } else {
                 // merge with right sibling
+                System.out.println("doing merging with right sibling");
                 BNode<Key, Value> rightSib = parent.children.get(this.parentIndex + 1);
                 this.Keys.add(parent.Keys.get(this.parentIndex));
                 this.Values.add(parent.Values.get(this.parentIndex));
-                this.Keys.addAll(rightSib.Keys);
-                this.Values.addAll(rightSib.Values);
-                this.children.addAll(rightSib.children);
+                for (int i = 0; i < rightSib.numKeys; i++) {
+                    this.Keys.add(rightSib.Keys.get(i));
+                    this.Values.add(rightSib.Values.get(i));
+                    if (this.haveChildren) this.children.add(rightSib.children.get(i));
+                }
+                if (this.haveChildren) this.children.add(rightSib.children.get(rightSib.numKeys));
                 this.numKeys = 2 * t - 1;
                 this.parentNode = rightSib.parentNode;
                 this.parentIndex = rightSib.parentIndex - 1;
@@ -354,19 +371,26 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 return this;
             }
         } else {
+            System.out.println("root or a t key node to delete");
             // root or a t key node, find and boom
             int succ = this.searchVal(key);
+            System.out.println("delete at index: " + succ +"- 1");
             if (succ == 0) {
                 // not to be found in me
+                System.out.println("not in me -> see my children(0)");
                 if (this.haveChildren) {
+                    System.out.println(" going to child(0)");
                     return this.children.get(0);
                 } else {
                     // nothing to delete
+                    System.out.println("returning null");
                     return null;
                 }
             } else {
-                if (this.Keys.get(succ - 1) == key) {
+                System.out.println(this.Keys.get(succ - 1) + " " + key + " " + (this.Keys.get(succ - 1).equals(key)) + " " + key.getClass().getName() + this.Keys.get(succ - 1).getClass().getName());
+                if (this.Keys.get(succ - 1).equals(key)) {
                     // delete it
+                    System.out.println("deleting inside me @ " + succ +"- 1");
                     boomCell(this, succ - 1);
                     if (this.parentNode == null && numKeys == 0) {
                         // root node made empty
@@ -375,6 +399,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
                     return this; // as more could have been left
                 } else {
                     // no one in this node
+                    System.out.println("Go to my children");
                     if (this.haveChildren) {
                         return this.children.get(succ);
                     } else {
@@ -386,6 +411,15 @@ public class BNode<Key extends Comparable<Key>,Value> {
         }
     }
 
+    public BNode<Key, Value> newRoot() {
+        System.out.println("Assigning the new root");
+        if (this.haveChildren) {
+            return this.children.get(0);
+        } else {
+            // I am empty and I have no children
+            return null;
+        }
+    }
     public String toString() {
         // from https://www.javatpoint.com/StringBuilder-class
         // System.out.println("root = " + this.Keys.get(0) + this.numKeys);

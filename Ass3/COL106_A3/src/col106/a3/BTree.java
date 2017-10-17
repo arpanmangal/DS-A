@@ -41,6 +41,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             // illegal => remember to implement it later
             throw new IllegalKeyException();
         }
+        if (root == null) return new ArrayList<Value>(); // empty list
         return root.searchKey(key);
     }
 
@@ -101,9 +102,17 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
         while(currentNode != null) {
             // delete until all not deleted
             if (currentNode == root){
-                root = currentNode = currentNode.removeKey(key);
+                currentNode = currentNode.removeKey(key);
+                if (currentNode != null) {
+                    // assign updated to root
+                    root = currentNode;
+                }
             } else {
                 currentNode = currentNode.removeKey(key);
+            }
+            if (root.size() == 0) {
+                // root is empty (will be empty when its children absorb it)
+                root = root.newRoot();
             }
         }
     }

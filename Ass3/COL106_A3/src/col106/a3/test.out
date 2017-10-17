@@ -1,17 +1,32 @@
-[a=b, a=c]
-[[a=b], a=c, [b=a], b=c, [b=d, b=e, b=g]]
-[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g], c=a, [c=b, c=d]]]
-[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]], c=a, [[c=b], c=d, [d=b], d=c, [d=e, d=f]]]
-[[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b], e=d, [e=f, e=g, e=h]]]]
-[[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h, f=d, f=e]]]]
-[[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h], f=d, [f=e, g=b, g=e]]]]
-[[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]]], e=d, [[[e=f], e=g, [e=h]], f=d, [[f=e], g=b, [g=e], h=e, [h=i, i=h]]]]
-[b, d, f, g, h]
-[b, c]
-[a, c, d, e, g]
-[d, e]
-[h]
-[b, c, e, f]
-[]
-[b, c]
-[a, c, d, e, g]
+[3=t, 4=f, 8=g]
+[[3=t], 4=f, [8=g, 9=k]]
+removing the key: 8 from node with 4f
+root or a t key node to delete
+delete at index: 1- 1
+4 8 false java.lang.Stringjava.lang.String
+Go to my children
+removing the key: 8 from node with 8g
+root or a t key node to delete
+delete at index: 1- 1
+8 8 true java.lang.Stringjava.lang.String
+deleting inside me @ 1- 1
+Booming the cell: 
+8g
+removing the key: 8 from node with 9k
+Node with insufficient Keys, Me: 9k4f
+doing merging with left sibling, my: 9k
+parent: 43
+new node with first val: 3t mid-val 4f last val 8g
+removing the key: 8 from node with 3t
+root or a t key node to delete
+delete at index: 3- 1
+8 8 true java.lang.Stringjava.lang.String
+deleting inside me @ 3- 1
+Booming the cell: 
+8g
+removing the key: 8 from node with 3t
+root or a t key node to delete
+delete at index: 2- 1
+4 8 false java.lang.Stringjava.lang.String
+Go to my children
+[3=t, 4=f]

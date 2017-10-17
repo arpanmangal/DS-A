@@ -1,10 +1,10 @@
-6
-insert 1 2
-insert 2 3
-insert 3 4
-insert 4 5
-insert 5 6
+4
+insert 4 f
+insert 3 t
+insert 8 g
 print
-insert 8 9
+insert 9 k
+print
+delete 8
 print
 exit
