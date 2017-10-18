@@ -313,7 +313,12 @@ public class BNode<Key extends Comparable<Key>,Value> {
     public BNode<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
         // System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
-        System.out.println("ho -> in this iteration: " + this.toString());
+        System.out.println("ho -> in this iteration: " + this.toString() + " and my children's parent: ");
+        if (this.haveChildren) {
+            for (int i = 0; i <= this.numKeys; i++) {
+                System.out.println(this.children.get(i).parentNode.toString());
+            }
+        }
         if (this.numKeys == 0) {
             // nothing in here
             System.out.println("returning null!!");
@@ -486,14 +491,19 @@ public class BNode<Key extends Comparable<Key>,Value> {
             BNode<Key, Value> leftSib = parent.children.get(node.parentIndex - 1);
             node.Keys.add(0, parent.Keys.get(node.parentIndex - 1));
             node.Values.add(0, parent.Values.get(node.parentIndex - 1));
-            if (node.haveChildren) node.children.add(0, leftSib.children.get(leftSib.numKeys));
+            if (node.haveChildren) {
+                node.children.add(0, leftSib.children.get(leftSib.numKeys));
+                // update the child's parent
+                node.children.get(0).parentNode = node;
+                node.children.get(0).parentIndex = 0;
+            }
             node.numKeys++;
 
             parent.Keys.set(node.parentIndex - 1, leftSib.Keys.get(leftSib.numKeys - 1));
             parent.Values.set(node.parentIndex - 1, leftSib.Values.get(leftSib.numKeys - 1));
             leftSib.Keys.remove(leftSib.numKeys - 1);
             leftSib.Values.remove(leftSib.numKeys - 1);
-            if(leftSib.haveChildren) leftSib.children.remove(leftSib.numKeys - 1);
+            if(leftSib.haveChildren) leftSib.children.remove(leftSib.numKeys);
             leftSib.numKeys--;
 
             System.out.println(" parent: "+node.parentNode.toString());
@@ -505,7 +515,12 @@ public class BNode<Key extends Comparable<Key>,Value> {
             BNode<Key, Value> rightSib = parent.children.get(node.parentIndex + 1);
             node.Keys.add(node.numKeys, parent.Keys.get(node.parentIndex));
             node.Values.add(node.numKeys, parent.Values.get(node.parentIndex));
-            if (node.haveChildren) node.children.add(node.numKeys+1, rightSib.children.get(0));
+            if (node.haveChildren) {
+                node.children.add(node.numKeys+1, rightSib.children.get(0));
+                // update parent of this child
+                node.children.get(node.numKeys + 1).parentNode = node;
+                node.children.get(node.numKeys + 1).parentIndex = node.numKeys + 1;
+            }
             node.numKeys++;
 
             parent.Keys.set(node.parentIndex, rightSib.Keys.get(0));
@@ -533,12 +548,22 @@ public class BNode<Key extends Comparable<Key>,Value> {
             for (int i = 0; i < node.numKeys; i++) {
                 leftSib.Keys.add(leftSib.numKeys, node.Keys.get(i));
                 leftSib.Values.add(leftSib.numKeys, node.Values.get(i));
-                leftSib.numKeys++;
                 // System.out.println("adding "+node.Keys.get(i)+node.Values.get(i)+node.Keys.size()+leftSib.Keys.size());
-                if (node.haveChildren) leftSib.children.add(leftSib.numKeys + 1, node.children.get(i));
+                if (node.haveChildren) {
+                    leftSib.children.add(leftSib.numKeys, node.children.get(i));
+                    // update parent of this child
+                    leftSib.children.get(leftSib.numKeys).parentNode = leftSib;
+                    leftSib.children.get(leftSib.numKeys).parentIndex = leftSib.numKeys;
+                }
+                leftSib.numKeys++;
                 // System.out.println(" after left merge node: " + leftSib.toString());
             }
-            if (node.haveChildren) leftSib.children.add(leftSib.numKeys+1, node.children.get(node.numKeys));
+            if (node.haveChildren) {
+                leftSib.children.add(leftSib.numKeys, node.children.get(node.numKeys));
+                // update parent of this child
+                leftSib.children.get(leftSib.numKeys).parentNode = leftSib;
+                leftSib.children.get(leftSib.numKeys).parentIndex = leftSib.numKeys;
+            }
 
             System.out.println(" after left merge node: " + leftSib.toString());
             
@@ -586,10 +611,18 @@ public class BNode<Key extends Comparable<Key>,Value> {
             for (int i = 0; i < rightSib.numKeys; i++) {
                 node.Keys.add(node.numKeys, rightSib.Keys.get(i));
                 node.Values.add(node.numKeys, rightSib.Values.get(i));
-                if (node.haveChildren) node.children.add(node.numKeys+1, rightSib.children.get(i));
+                if (node.haveChildren) {
+                    node.children.add(node.numKeys, rightSib.children.get(i));
+                    node.children.get(node.numKeys).parentNode = node;
+                    node.children.get(node.numKeys).parentIndex = node.numKeys;
+                }
                 node.numKeys++;
             }
-            if (node.haveChildren) node.children.add(node.numKeys+1, rightSib.children.get(rightSib.numKeys));
+            if (node.haveChildren) {
+                node.children.add(node.numKeys, rightSib.children.get(rightSib.numKeys));
+                node.children.get(node.numKeys).parentNode = node;
+                node.children.get(node.numKeys).parentIndex = node.numKeys;
+            }
             node.numKeys = 2 * t - 1;
             node.parentNode = node.parentNode; // same
             node.parentIndex = node.parentIndex; // same

@@ -53,7 +53,11 @@ search i
 [h]
 search d
 [b, c, e, f]
-search n
-search a
-search b
+
+delete i
+print
+search i
+delete h
+print
+search h
 exit
