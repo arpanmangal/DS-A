@@ -63,6 +63,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
         // System.out.println("in searchVal in node " + this.Keys.get(0) + this.Values.get(0));
         // implements binary search to find val
         // returns index of immediate successor in whose left child do the insert
+        if (numKeys == 0) return -1; // not possible to find
         return search(key, 0, this.numKeys - 1);
     }
     private int search(Key key, int start, int end) {
@@ -212,6 +213,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
         List<Value> data = new ArrayList<Value>();
         int status = 0;
         int comp;
+        if (numKeys == 0) return data; // nothing to search
         for (int i = 0; i < numKeys; i++) {
             comp = key.compareTo(this.Keys.get(i));
             if (comp == 0) {
@@ -311,8 +313,13 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
     public BNode<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
-        System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
+        // System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
         System.out.println("ho");
+        if (this.numKeys == 0) {
+            // nothing in here
+            System.out.println("returning null!!");
+            return null;
+        }
         if (this.parentNode != null && this.numKeys < t) {
             System.out.println("ha");
             System.out.println("Node with insufficient Keys, Me: " + this.Keys.get(0) + this.Values.get(0) +" parent: "+ this.parentNode.Keys.get(0) + this.parentNode.Values.get(0));
@@ -413,7 +420,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             return removeUnderflow(this);
             
         } else {
-            System.out.println("root or a t key node to delete");
+            System.out.println("root or a t key node to delete, me: " + this.toString() + this.numKeys + this.children.size());
             // root or a t key node, find and boom
             int succ = this.searchVal(key);
             System.out.println("delete at index: " + (succ - 1));
@@ -616,6 +623,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             return this.children.get(0);
         } else {
             // I am empty and I have no children
+            System.out.println("empty and no children");
             return null;
         }
     }

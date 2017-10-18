@@ -1,0 +1,11 @@
+4
+insert 4 g
+insert 4 h
+insert 4 t
+print
+insert 4 b
+insert 4 m
+print
+delete 4
+print
+exit

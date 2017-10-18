@@ -110,7 +110,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             } else {*/
                 currentNode = currentNode.removeKey(key);
         //    }
-            if (root.size() == 0) {
+            if (root != null && root.size() == 0) {
                 // root is empty (will be empty when its children absorb it)
                 root = root.newRoot();
             }
