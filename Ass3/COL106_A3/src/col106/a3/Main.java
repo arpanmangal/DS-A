@@ -21,7 +21,7 @@ public class Main {
                         tree.delete(s.next());
                         break;
                     case "print":
-                        System.out.println("=> "+tree);
+                        System.out.println(tree);
                         break;
                     case "height":
                         System.out.println(tree.height());

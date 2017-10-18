@@ -48,7 +48,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
     @Override
     public void insert(Key key, Value val) {
         // iterative method to insert in the node
-        // System.out.println("ho");
+        // ////System.out.println("ho");
         boolean inserted = false;
         BNode<Key, Value> currentNode = root;
         if (root == null) {
@@ -57,9 +57,9 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             root.insert(key, val, 0);
             inserted = true;
         }
-        // System.out.println("hi");
+        // ////System.out.println("hi");
         while(!inserted) {
-            // System.out.println("se");
+            // ////System.out.println("se");
             if (currentNode == null) {
                 break; // cannot be inserted
             }
@@ -67,24 +67,24 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             if (currentNode.size() >= b - 1) {
                 // break the node
                 // if the broken node is the root
-                // System.out.println("bre");
+                // ////System.out.println("bre");
                 if (root == currentNode) {
                     root = currentNode = currentNode.breakNode();
                 } else {
                     currentNode = currentNode.breakNode();
                 }    
             }
-            // System.out.println("getting location");
+            // ////System.out.println("getting location");
             int location = currentNode.searchVal(key);
-            // System.out.println(location);
+            // ////System.out.println(location);
             if (currentNode.hasChild()) {
                 // inset into the child
-                // System.out.println("going to child");
+                // ////System.out.println("going to child");
                 currentNode = currentNode.getChild(location);
             } else {
                 // insert right away
                 //@SuppressWarnings("unchecked") // Just for this one statement
-                // System.out.println("inserting");
+                // ////System.out.println("inserting");
                 currentNode.insert(key, val, location);
                 inserted = true;
             }
