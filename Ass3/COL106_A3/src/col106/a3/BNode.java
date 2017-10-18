@@ -243,29 +243,48 @@ public class BNode<Key extends Comparable<Key>,Value> {
     }
 
     // deleting a node
-    private void boomCell(BNode<Key, Value> node, int index) {
+    private BNode<Key, Value> boomCell(BNode<Key, Value> node, int index) {
+        // return the modified version of node after booming the value
+        // if a root, numKeys can be < t, o.w. >= t
         System.out.println("Booming the cell: ");
         // boom it, don't care about rotation etc.
-        if (node == null) return; // no node to boom
+        if (node == null) return node; // no node to boom
         if (index >= node.numKeys) {
             // cannot delete
             System.out.println("illegal boom order");
-            return;
+            return node;
         }
         System.out.println("" + node.Keys.get(index) + node.Values.get(index));
         if (!node.haveChildren) {
             // leaf node
+            System.out.println("leaf node in boom cell");
             node.numKeys--;
             node.Keys.remove(index);
             node.Values.remove(index);
+            return node;
             // for (int i = index; i < node.numKeys; i++) {
             //     Keys.
             // }
         } else {
             // find inorder successor and swap with that
+            System.out.println("going to succ in boom cell");
             BNode<Key, Value> currentNode = node.children.get(index + 1);
             if (currentNode.numKeys < t) {
-                // its an underflow !!!!!
+                System.out.println("In boom cell right child has underflow!");
+                // it's an underflow
+                // int initialKeys = node.numKeys;
+                removeUnderflow(currentNode);
+                // if (node.numKeys != initialKeys) {
+
+                // }
+                if (node.numKeys != 0) {
+                    // either the toDelete key is absorbed down or is there
+                    return node; // future iterations will look after further deletion
+                } else {
+                    // the node has become empty, it must have been a root
+                    return currentNode;
+                }
+                 
             }
             // no probs if told to delete from root
             while(currentNode.haveChildren) {
@@ -282,14 +301,17 @@ public class BNode<Key extends Comparable<Key>,Value> {
             currentNode.Keys.remove(0);
             currentNode.Values.remove(0);
             currentNode.numKeys--;
+            return node;
         }
     }
 
     public BNode<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
         System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
+        System.out.println("ho");
         if (this.parentNode != null && this.numKeys < t) {
-            System.out.println("Node with insufficient Keys, Me: " + this.Keys.get(0) + this.Values.get(0) + this.parentNode.Keys.get(0) + this.parentNode.Values.get(0));
+            System.out.println("ha");
+            System.out.println("Node with insufficient Keys, Me: " + this.Keys.get(0) + this.Values.get(0) +" parent: "+ this.parentNode.Keys.get(0) + this.parentNode.Values.get(0));
             // do something to increase the keys
             // check with nearby siblings
             // control has reached me => neither my parents nor my siblings are free of the key
@@ -384,7 +406,8 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
                 return this;
             } */
-            this = removeUnderflow(this);
+            return removeUnderflow(this);
+            
         } else {
             System.out.println("root or a t key node to delete");
             // root or a t key node, find and boom
@@ -406,12 +429,12 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 if (this.Keys.get(succ - 1).equals(key)) {
                     // delete it
                     System.out.println("deleting inside me @ " + succ +"- 1");
-                    boomCell(this, succ - 1);
-                    if (this.parentNode == null && numKeys == 0) {
+                    // boomCell(this, succ - 1);
+                    /*if (this.parentNode == null && numKeys == 0) {
                         // root node made empty
                         return null; // done
-                    }
-                    return this; // as more could have been left
+                    }*/
+                    return boomCell(this, succ - 1); // as more could have been left
                 } else {
                     // no one in this node
                     System.out.println("Go to my children");
@@ -427,6 +450,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
     }
 
     private BNode<Key, Value> removeUnderflow(BNode<Key, Value> node) {
+        System.out.println(" in underFlow nodeParent: " + node.parentNode.toString());
         // the node has underflow, remove it
         if (node == null) {
             // error checking
@@ -436,13 +460,16 @@ public class BNode<Key extends Comparable<Key>,Value> {
             // not an underflow
             return node;
         }
-
+        System.out.println("going to treat the underflow");
         BNode<Key, Value> parent = node.parentNode;
+        System.out.println("ok");
         // check method resolution of underflow
+        System.out.println("parentIndex: " + node.parentIndex);
         if (parent == null) {
             // it is the root, it can have underflow
+            System.out.println("it's the root");
             return node;
-        } else if ((node.parentIndex > 0) && (parent.children.get(parentIndex - 1).numKeys >= t)) {
+        } else if ((node.parentIndex > 0) && (parent.children.get(node.parentIndex - 1).numKeys >= t)) {
             // have left sibling, which has extra keys
             // do a right rotate, parent not affected
             System.out.println("doing a right rotate");
@@ -454,13 +481,13 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
             parent.Keys.set(node.parentIndex - 1, leftSib.Keys.get(leftSib.numKeys - 1));
             parent.Values.set(node.parentIndex - 1, leftSib.Values.get(leftSib.numKeys - 1));
-            leftSib.Keys.remove(numKeys - 1);
-            leftSib.Values.remove(numKeys - 1);
-            leftSib.children.remove(numKeys - 1);
+            leftSib.Keys.remove(leftSib.numKeys - 1);
+            leftSib.Values.remove(leftSib.numKeys - 1);
+            leftSib.children.remove(leftSib.numKeys - 1);
             leftSib.numKeys--;
 
             return node;
-        } else if ((node.parentIndex < 2 * t - 1) && (node.parentNode.children.get(parentIndex + 1).numKeys >= t)) {
+        } else if ((node.parentIndex < parent.numKeys) && (node.parentNode.children.get(node.parentIndex + 1).numKeys >= t)) {
             // have right sibling, which has extra keys
             // do a left rotate
             System.out.println("doing a left rotate");
@@ -481,51 +508,76 @@ public class BNode<Key extends Comparable<Key>,Value> {
         } else if(node.parentIndex > 0) {
             // have left sibling, merge it
             // merge with left sibling
+            System.out.println("left merge");
             System.out.println("doing merging with left sibling, my: "+  node.Keys.get(0) + node.Values.get(0));
             BNode<Key, Value> leftSib = parent.children.get(node.parentIndex - 1);
-            System.out.println("parent: " + parent.Keys.get(0) + " leftSib: " + leftSib.Keys.get(0));
-            leftSib.Keys.add(parent.Keys.get(node.parentIndex - 1));
-            leftSib.Values.add(parent.Values.get(node.parentIndex - 1));
+            // System.out.println("parent: " + parent.Keys.get(0) + " leftSib: " + leftSib.Keys.get(0));
+            System.out.println("parent: "+parent.toString()+" me: "+node.toString()+" leftSib "+leftSib.toString());
+            leftSib.Keys.add(leftSib.numKeys, parent.Keys.get(node.parentIndex - 1));
+            leftSib.Values.add(leftSib.numKeys, parent.Values.get(node.parentIndex - 1));
+            leftSib.numKeys++;
+            System.out.println(" after left merge node: " + leftSib.toString());
+            System.out.println(" after left merge node: " + node.toString());
             for (int i = 0; i < node.numKeys; i++) {
-                leftSib.Keys.add(node.Keys.get(i));
-                leftSib.Values.add(node.Values.get(i));
-                if (node.haveChildren) leftSib.children.add(node.children.get(i));
+                leftSib.Keys.add(leftSib.numKeys, node.Keys.get(i));
+                leftSib.Values.add(leftSib.numKeys, node.Values.get(i));
+                leftSib.numKeys++;
+                System.out.println("adding "+node.Keys.get(i)+node.Values.get(i)+node.Keys.size()+leftSib.Keys.size());
+                if (node.haveChildren) leftSib.children.add(leftSib.numKeys, node.children.get(i));
+                System.out.println(" after left merge node: " + leftSib.toString());
             }
-            if (node.haveChildren) leftSib.children.add(node.children.get(node.numKeys));
-            leftSib.numKeys = 2 * t - 1;
+            if (node.haveChildren) leftSib.children.add(leftSib.numKeys, node.children.get(node.numKeys));
+
+            System.out.println(" after left merge node: " + leftSib.toString());
+            
+            // System.out.println(" after left merge node: " + leftSib.toString());
+            // System.out.println("setting left sib");
+        //    leftSib.numKeys = 2 * t - 1;
             leftSib.parentNode = node.parentNode;
             leftSib.parentIndex = node.parentIndex - 1;
 
+            // System.out.println(" after left merge node: " + leftSib.toString());
+            // System.out.println("setting myself");
             node.numKeys = 0;
             node.Keys.removeAllElements();
             node.Values.removeAllElements();
             node.children.removeAllElements();
 
+            // System.out.println("setting parent in left merge");
             parent.Keys.remove(node.parentIndex - 1);
             parent.Values.remove(node.parentIndex - 1);
             parent.children.remove(node.parentIndex);
             parent.numKeys--;
 
+            // System.out.println(" after left merge node: " + leftSib.toString());
             if (parent.numKeys == 0) {
                 // it was the root which has become empty!!!
+                System.out.println("empty root afer merge");
+                leftSib.parentNode = null;
+                leftSib.parentIndex = -1;
             }
-
-            System.out.println("new node with first val: " + leftSib.Keys.get(0) + leftSib.Values.get(0) +
-            " mid-val " + leftSib.Keys.get(t - 1) + leftSib.Values.get(t - 1) +  " last val " + leftSib.Keys.get(2 * t - 2) + leftSib.Values.get(2 * t - 2));
+            System.out.println("ya ya");
+            System.out.println(" after left merge node: " + leftSib.toString());
+            // System.out.println("new node with first val: " + leftSib.Keys.get(0) + leftSib.Values.get(0) +
+            // " mid-val " + leftSib.Keys.get(t - 1) + leftSib.Values.get(t - 1) +  " last val " + leftSib.Keys.get(2 * t - 2) + leftSib.Values.get(2 * t - 2));
+            System.out.println("yo");
             return leftSib;
         } else {
             // have right sibling, merge it
             // merge with right sibling
             System.out.println("doing merging with right sibling");
             BNode<Key, Value> rightSib = parent.children.get(node.parentIndex + 1);
-            node.Keys.add(parent.Keys.get(node.parentIndex));
-            node.Values.add(parent.Values.get(node.parentIndex));
+            node.Keys.add(node.numKeys, parent.Keys.get(node.parentIndex));
+            node.Values.add(node.numKeys, parent.Values.get(node.parentIndex));
+            node.numKeys++;
+
             for (int i = 0; i < rightSib.numKeys; i++) {
-                node.Keys.add(rightSib.Keys.get(i));
-                node.Values.add(rightSib.Values.get(i));
-                if (node.haveChildren) node.children.add(rightSib.children.get(i));
+                node.Keys.add(node.numKeys, rightSib.Keys.get(i));
+                node.Values.add(node.numKeys, rightSib.Values.get(i));
+                if (node.haveChildren) node.children.add(node.numKeys, rightSib.children.get(i));
+                node.numKeys++;
             }
-            if (node.haveChildren) node.children.add(rightSib.children.get(rightSib.numKeys));
+            if (node.haveChildren) node.children.add(node.numKeys, rightSib.children.get(rightSib.numKeys));
             node.numKeys = 2 * t - 1;
             node.parentNode = node.parentNode; // same
             node.parentIndex = node.parentIndex; // same
@@ -541,8 +593,10 @@ public class BNode<Key extends Comparable<Key>,Value> {
             parent.numKeys--;
 
             if (parent.numKeys == 0) {
-                // parent was the root which has become empty
-
+                // it was the root which has become empty!!!
+                System.out.println("empty root afer merge");
+                node.parentNode = null;
+                node.parentIndex = -1;
             }
             return node;
 
@@ -563,6 +617,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
         // from https://www.javatpoint.com/StringBuilder-class
         // System.out.println("root = " + this.Keys.get(0) + this.numKeys);
         StringBuilder s = new StringBuilder("[");
+        if (this == null || this.numKeys == 0) return "[]";
         for (int i = 0; i < numKeys; i++) {
             if (this.haveChildren) {
                 s.append(this.children.get(i).toString());
@@ -587,4 +642,5 @@ public class BNode<Key extends Comparable<Key>,Value> {
 
 
     // deletion functions
+    
 }

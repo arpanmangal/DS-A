@@ -1,32 +1,45 @@
 [3=t, 4=f, 8=g]
 [[3=t], 4=f, [8=g, 9=k]]
 removing the key: 8 from node with 4f
+ho
 root or a t key node to delete
-delete at index: 1- 1
+delete at index: 0
 4 8 false java.lang.Stringjava.lang.String
 Go to my children
 removing the key: 8 from node with 8g
+ho
 root or a t key node to delete
-delete at index: 1- 1
+delete at index: 0
 8 8 true java.lang.Stringjava.lang.String
 deleting inside me @ 1- 1
 Booming the cell: 
 8g
+leaf node in boom cell
 removing the key: 8 from node with 9k
-Node with insufficient Keys, Me: 9k4f
+ho
+ha
+Node with insufficient Keys, Me: 9k parent: 4f
+ in underFlow nodeParent: [[3=t], 4=f, [9=k]]
+going to treat the underflow
+ok
+parentIndex: 1
+left merge
 doing merging with left sibling, my: 9k
-parent: 43
-new node with first val: 3t mid-val 4f last val 8g
+parent: [[3=t], 4=f, [9=k]] me: [9=k] leftSib [3=t]
+ after left merge node: [3=t, 4=f]
+ after left merge node: [9=k]
+adding 9k15
+ after left merge node: [3=t, 4=f, 9=k]
+ after left merge node: [3=t, 4=f, 9=k]
+empty root afer merge
+ya ya
+ after left merge node: [3=t, 4=f, 9=k]
+yo
+Assigning the new root
 removing the key: 8 from node with 3t
+ho
 root or a t key node to delete
-delete at index: 3- 1
-8 8 true java.lang.Stringjava.lang.String
-deleting inside me @ 3- 1
-Booming the cell: 
-8g
-removing the key: 8 from node with 3t
-root or a t key node to delete
-delete at index: 2- 1
+delete at index: 1
 4 8 false java.lang.Stringjava.lang.String
 Go to my children
-[3=t, 4=f]
+[3=t, 4=f, 9=k]

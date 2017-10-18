@@ -101,15 +101,15 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
         BNode<Key, Value> currentNode = root;
         while(currentNode != null) {
             // delete until all not deleted
-            if (currentNode == root){
+        /*    if (currentNode == root){
                 currentNode = currentNode.removeKey(key);
                 if (currentNode != null) {
                     // assign updated to root
                     root = currentNode;
                 }
-            } else {
+            } else {*/
                 currentNode = currentNode.removeKey(key);
-            }
+        //    }
             if (root.size() == 0) {
                 // root is empty (will be empty when its children absorb it)
                 root = root.newRoot();

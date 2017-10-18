@@ -1,0 +1,10 @@
+4
+insert 4 f
+insert 3 t
+insert 8 g
+print
+insert 9 k
+print
+delete 8
+print
+exit
