@@ -278,7 +278,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 System.out.println("In boom cell right child has underflow!");
                 // it's an underflow
                 // int initialKeys = node.numKeys;
-                removeUnderflow(currentNode);
+                currentNode = removeUnderflow(currentNode);
                 // if (node.numKeys != initialKeys) {
 
                 // }
@@ -313,7 +313,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
     public BNode<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
         // System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
-        System.out.println("ho");
+        System.out.println("ho -> in this iteration: " + this.toString());
         if (this.numKeys == 0) {
             // nothing in here
             System.out.println("returning null!!");

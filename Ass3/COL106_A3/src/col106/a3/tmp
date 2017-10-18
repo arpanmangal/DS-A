@@ -53,3 +53,34 @@ print
 delete 9
 print
 exit
+
+
+// not working 
+4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+print
+height
+empty
+search t
+
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+print
+height
+empty
+search t
+delete t
+print
+search t
+exit

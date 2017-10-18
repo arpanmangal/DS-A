@@ -1,17 +1,14 @@
 4
-insert 4 g
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
+insert t 4
 print
-insert 1 g
+height
+empty
+search t
 print
-insert 5 m
-print
-insert 0 a
-print
-insert 98 jk
-print
-insert 33 ui
-print
-insert 23 l
-print
-
 exit

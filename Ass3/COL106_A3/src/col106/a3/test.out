@@ -1,54 +1,113 @@
-=> [a=b, a=c]
 in breaknode
 Breaking the root!
 Making right half
 adding last child
 adjusting self
 10
-Final Configuration: root = aab
+Final Configuration: root = ttt
 in breaknode
-=> [[a=b], a=c, [b=a], b=c, [b=d, b=e, b=g]]
-in breaknode
-in breaknode
-Breaking the root!
-Making right half
-adding last child
-adjusting self
-10
-Final Configuration: root = bab
-in breaknode
-=> [[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g], c=a, [c=b, c=d]]]
-in breaknode
-in breaknode
-in breaknode
-=> [[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]], c=a, [[c=b], c=d, [d=b], d=c, [d=e, d=f]]]
-in breaknode
-in breaknode
-in breaknode
-Breaking the root!
-Making right half
-adding last child
-adjusting self
-10
-Final Configuration: root = cbd
-in breaknode
-=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b], e=d, [e=f, e=g, e=h]]]]
-in breaknode
-in breaknode
-=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h, f=d, f=e]]]]
-in breaknode
-=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h], f=d, [f=e, g=b, g=e]]]]
-in breaknode
-in breaknode
-in breaknode
-in breaknode
-=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]]], e=d, [[[e=f], e=g, [e=h]], f=d, [[f=e], g=b, [g=e], h=e, [h=i, i=h]]]]
-[b, d, f, g, h]
-[b, c]
-[a, c, d, e, g]
-[d, e]
-[h]
-[b, c, e, f]
-[]
-[b, c]
-[a, c, d, e, g]
+=> [[t=4], t=4, [t=4], t=4, [t=4, t=4, t=4]]
+1
+false
+[4, 4, 4, 4, 4, 4, 4]
+ho -> in this iteration: [[t=4], t=4, [t=4], t=4, [t=4, t=4, t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4], t=4, [t=4, t=4, t=4]]23
+delete at index: 1
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+ho -> in this iteration: [[t=4], t=4, [t=4], t=4, [t=4, t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4], t=4, [t=4, t=4]]23
+delete at index: 1
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+ho -> in this iteration: [[t=4], t=4, [t=4], t=4, [t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4], t=4, [t=4]]23
+delete at index: 1
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+In boom cell right child has underflow!
+ in underFlow nodeParent: [[t=4], t=4, [t=4], t=4, [t=4]]
+going to treat the underflow
+ok
+parentIndex: 2
+left merge
+doing merging with left sibling, my: t4
+parent: [[t=4], t=4, [t=4], t=4, [t=4]] me: [t=4] leftSib [t=4]
+ after left merge node: [t=4, t=4, t=4]
+ after left merge node: [t=4, t=4, t=4]
+yo
+ho -> in this iteration: [[t=4], t=4, [t=4, t=4, t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4, t=4, t=4]]12
+delete at index: 0
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 1- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+ho -> in this iteration: [[t=4], t=4, [t=4, t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4, t=4]]12
+delete at index: 0
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 1- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+ho -> in this iteration: [[t=4], t=4, [t=4]]
+root or a t key node to delete, me: [[t=4], t=4, [t=4]]12
+delete at index: 0
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 1- 1
+Booming the cell: 
+t4
+going to succ in boom cell
+In boom cell right child has underflow!
+ in underFlow nodeParent: [[t=4], t=4, [t=4]]
+going to treat the underflow
+ok
+parentIndex: 1
+left merge
+doing merging with left sibling, my: t4
+parent: [[t=4], t=4, [t=4]] me: [t=4] leftSib [t=4]
+ after left merge node: [t=4, t=4, t=4]
+empty root afer merge
+ after left merge node: [t=4, t=4, t=4]
+yo
+Assigning the new root
+ho -> in this iteration: [t=4, t=4, t=4]
+root or a t key node to delete, me: [t=4, t=4, t=4]30
+delete at index: 2
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 3- 1
+Booming the cell: 
+t4
+leaf node in boom cell
+ho -> in this iteration: [t=4, t=4]
+root or a t key node to delete, me: [t=4, t=4]20
+delete at index: 1
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+t4
+leaf node in boom cell
+ho -> in this iteration: [t=4]
+root or a t key node to delete, me: [t=4]10
+delete at index: 0
+t t true java.lang.Stringjava.lang.String
+deleting inside me @ 1- 1
+Booming the cell: 
+t4
+leaf node in boom cell
+Assigning the new root
+empty and no children
+ho -> in this iteration: []
+returning null!!
+=> []
