@@ -247,6 +247,11 @@ public class BNode<Key extends Comparable<Key>,Value> {
         System.out.println("Booming the cell: ");
         // boom it, don't care about rotation etc.
         if (node == null) return; // no node to boom
+        if (index >= node.numKeys) {
+            // cannot delete
+            System.out.println("illegal boom order");
+            return;
+        }
         System.out.println("" + node.Keys.get(index) + node.Values.get(index));
         if (!node.haveChildren) {
             // leaf node
@@ -259,8 +264,17 @@ public class BNode<Key extends Comparable<Key>,Value> {
         } else {
             // find inorder successor and swap with that
             BNode<Key, Value> currentNode = node.children.get(index + 1);
-            while(currentNode.haveChildren) currentNode = currentNode.children.get(0);
-
+            if (currentNode.numKeys < t) {
+                // its an underflow !!!!!
+            }
+            // no probs if told to delete from root
+            while(currentNode.haveChildren) {
+                currentNode = currentNode.children.get(0);
+                if (currentNode.numKeys < t) {
+                    // remove the underflow
+                    currentNode = removeUnderflow(currentNode);
+                }
+            }
             // swap and delete it
             node.Keys.set(index, currentNode.Keys.get(0));
             node.Values.set(index, currentNode.Values.get(0));
@@ -279,7 +293,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             // do something to increase the keys
             // check with nearby siblings
             // control has reached me => neither my parents nor my siblings are free of the key
-            BNode<Key, Value> parent = this.parentNode;
+         /*   BNode<Key, Value> parent = this.parentNode;
             if (this.parentIndex > 0 && parent.children.get(this.parentIndex - 1).numKeys >= t) {
                 // left sibling => do a right rotate
                 System.out.println("doing a right rotate");
@@ -369,12 +383,13 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 parent.children.remove(this.parentIndex + 1);
 
                 return this;
-            }
+            } */
+            this = removeUnderflow(this);
         } else {
             System.out.println("root or a t key node to delete");
             // root or a t key node, find and boom
             int succ = this.searchVal(key);
-            System.out.println("delete at index: " + succ +"- 1");
+            System.out.println("delete at index: " + (succ - 1));
             if (succ == 0) {
                 // not to be found in me
                 System.out.println("not in me -> see my children(0)");
@@ -411,6 +426,130 @@ public class BNode<Key extends Comparable<Key>,Value> {
         }
     }
 
+    private BNode<Key, Value> removeUnderflow(BNode<Key, Value> node) {
+        // the node has underflow, remove it
+        if (node == null) {
+            // error checking
+            return node;
+        }
+        if (node.numKeys >= t) {
+            // not an underflow
+            return node;
+        }
+
+        BNode<Key, Value> parent = node.parentNode;
+        // check method resolution of underflow
+        if (parent == null) {
+            // it is the root, it can have underflow
+            return node;
+        } else if ((node.parentIndex > 0) && (parent.children.get(parentIndex - 1).numKeys >= t)) {
+            // have left sibling, which has extra keys
+            // do a right rotate, parent not affected
+            System.out.println("doing a right rotate");
+            BNode<Key, Value> leftSib = parent.children.get(node.parentIndex - 1);
+            node.Keys.add(0, parent.Keys.get(node.parentIndex - 1));
+            node.Values.add(0, parent.Values.get(node.parentIndex - 1));
+            if (node.haveChildren) node.children.add(0, leftSib.children.get(leftSib.numKeys));
+            node.numKeys++;
+
+            parent.Keys.set(node.parentIndex - 1, leftSib.Keys.get(leftSib.numKeys - 1));
+            parent.Values.set(node.parentIndex - 1, leftSib.Values.get(leftSib.numKeys - 1));
+            leftSib.Keys.remove(numKeys - 1);
+            leftSib.Values.remove(numKeys - 1);
+            leftSib.children.remove(numKeys - 1);
+            leftSib.numKeys--;
+
+            return node;
+        } else if ((node.parentIndex < 2 * t - 1) && (node.parentNode.children.get(parentIndex + 1).numKeys >= t)) {
+            // have right sibling, which has extra keys
+            // do a left rotate
+            System.out.println("doing a left rotate");
+            BNode<Key, Value> rightSib = parent.children.get(node.parentIndex + 1);
+            node.Keys.add(parent.Keys.get(node.parentIndex));
+            node.Values.add(parent.Values.get(node.parentIndex));
+            if (node.haveChildren) node.children.add(rightSib.children.get(0));
+            node.numKeys++;
+
+            parent.Keys.set(node.parentIndex, rightSib.Keys.get(0));
+            parent.Values.set(node.parentIndex, rightSib.Values.get(0));
+            rightSib.Keys.remove(0);
+            rightSib.Values.remove(0);
+            rightSib.children.remove(0);
+            rightSib.numKeys--;
+
+            return node;
+        } else if(node.parentIndex > 0) {
+            // have left sibling, merge it
+            // merge with left sibling
+            System.out.println("doing merging with left sibling, my: "+  node.Keys.get(0) + node.Values.get(0));
+            BNode<Key, Value> leftSib = parent.children.get(node.parentIndex - 1);
+            System.out.println("parent: " + parent.Keys.get(0) + " leftSib: " + leftSib.Keys.get(0));
+            leftSib.Keys.add(parent.Keys.get(node.parentIndex - 1));
+            leftSib.Values.add(parent.Values.get(node.parentIndex - 1));
+            for (int i = 0; i < node.numKeys; i++) {
+                leftSib.Keys.add(node.Keys.get(i));
+                leftSib.Values.add(node.Values.get(i));
+                if (node.haveChildren) leftSib.children.add(node.children.get(i));
+            }
+            if (node.haveChildren) leftSib.children.add(node.children.get(node.numKeys));
+            leftSib.numKeys = 2 * t - 1;
+            leftSib.parentNode = node.parentNode;
+            leftSib.parentIndex = node.parentIndex - 1;
+
+            node.numKeys = 0;
+            node.Keys.removeAllElements();
+            node.Values.removeAllElements();
+            node.children.removeAllElements();
+
+            parent.Keys.remove(node.parentIndex - 1);
+            parent.Values.remove(node.parentIndex - 1);
+            parent.children.remove(node.parentIndex);
+            parent.numKeys--;
+
+            if (parent.numKeys == 0) {
+                // it was the root which has become empty!!!
+            }
+
+            System.out.println("new node with first val: " + leftSib.Keys.get(0) + leftSib.Values.get(0) +
+            " mid-val " + leftSib.Keys.get(t - 1) + leftSib.Values.get(t - 1) +  " last val " + leftSib.Keys.get(2 * t - 2) + leftSib.Values.get(2 * t - 2));
+            return leftSib;
+        } else {
+            // have right sibling, merge it
+            // merge with right sibling
+            System.out.println("doing merging with right sibling");
+            BNode<Key, Value> rightSib = parent.children.get(node.parentIndex + 1);
+            node.Keys.add(parent.Keys.get(node.parentIndex));
+            node.Values.add(parent.Values.get(node.parentIndex));
+            for (int i = 0; i < rightSib.numKeys; i++) {
+                node.Keys.add(rightSib.Keys.get(i));
+                node.Values.add(rightSib.Values.get(i));
+                if (node.haveChildren) node.children.add(rightSib.children.get(i));
+            }
+            if (node.haveChildren) node.children.add(rightSib.children.get(rightSib.numKeys));
+            node.numKeys = 2 * t - 1;
+            node.parentNode = node.parentNode; // same
+            node.parentIndex = node.parentIndex; // same
+                
+            rightSib.numKeys = 0;
+            rightSib.Keys.removeAllElements();
+            rightSib.Values.removeAllElements();
+            rightSib.children.removeAllElements();
+
+            parent.Keys.remove(node.parentIndex);
+            parent.Values.remove(node.parentIndex);
+            parent.children.remove(node.parentIndex + 1);
+            parent.numKeys--;
+
+            if (parent.numKeys == 0) {
+                // parent was the root which has become empty
+
+            }
+            return node;
+
+        }
+
+    }
+
     public BNode<Key, Value> newRoot() {
         System.out.println("Assigning the new root");
         if (this.haveChildren) {
@@ -443,4 +582,9 @@ public class BNode<Key extends Comparable<Key>,Value> {
             return s.substring(0);
         }
     }
+
+
+
+
+    // deletion functions
 }
