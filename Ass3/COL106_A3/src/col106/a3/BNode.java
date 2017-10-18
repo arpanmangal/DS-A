@@ -113,10 +113,10 @@ public class BNode<Key extends Comparable<Key>,Value> {
             System.out.println("Making right half");
             BNode<Key, Value> rightHalf = new BNode<Key, Value>(2 * t);
             for (int i = 0, lim = t - 1; i < lim; i++) { // last half t - 1 keys
-                rightHalf.Keys.add(rightHalf.numKeys, this.Keys.get(t + i));
-                rightHalf.Values.add(rightHalf.numKeys, this.Values.get(t + i));
+                rightHalf.Keys.add(this.Keys.get(t + i));
+                rightHalf.Values.add(this.Values.get(t + i));
                 if (this.haveChildren) {
-                    rightHalf.children.add(rightHalf.numKeys + 1, this.children.get(t + i));
+                    rightHalf.children.add(this.children.get(t + i));
                     rightHalf.children.get(i).parentNode = rightHalf;
                     rightHalf.children.get(i).parentIndex = i;
                 }
@@ -124,7 +124,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             }
             System.out.println("adding last child");
             if (this.haveChildren) {
-                rightHalf.children.add(rightHalf.numKeys+1, this.children.get(2 * t - 1));
+                rightHalf.children.add(this.children.get(2 * t - 1));
                 rightHalf.children.get(t - 1).parentNode = rightHalf;
                 rightHalf.children.get(t - 1).parentIndex = t - 1;
             }
@@ -155,18 +155,17 @@ public class BNode<Key extends Comparable<Key>,Value> {
         // make a new node with right half
         BNode<Key, Value> rightHalf = new BNode<Key, Value>(2 * t);
         for (int i = 0, lim = t - 1; i < lim; i++) { // last half t - 1 keys
-            rightHalf.Keys.add(rightHalf.numKeys, this.Keys.get(t + i));
-            rightHalf.Values.add(rightHalf.numKeys, this.Values.get(t + i));
-            rightHalf.numKeys++;
+            rightHalf.Keys.add(this.Keys.get(t + i));
+            rightHalf.Values.add(this.Values.get(t + i));
             if (this.haveChildren) {
-                rightHalf.children.add(rightHalf.numKeys+1, this.children.get(t + i));
+                rightHalf.children.add(this.children.get(t + i));
                 rightHalf.children.get(i).parentNode = rightHalf;
                 rightHalf.children.get(i).parentIndex = i;
             }
             rightHalf.numKeys++;
         }
         if (this.haveChildren) {
-            rightHalf.children.add(rightHalf.numKeys+1, this.children.get(2 * t - 1));
+            rightHalf.children.add(this.children.get(2 * t - 1));
             rightHalf.children.get(t - 1).parentNode = rightHalf;
             rightHalf.children.get(t - 1).parentIndex = t - 1;
         }

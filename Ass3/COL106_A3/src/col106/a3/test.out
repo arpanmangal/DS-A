@@ -7,40 +7,48 @@ adjusting self
 10
 Final Configuration: root = aab
 in breaknode
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
+=> [[a=b], a=c, [b=a], b=c, [b=d, b=e, b=g]]
+in breaknode
+in breaknode
+Breaking the root!
+Making right half
+adding last child
+adjusting self
+10
+Final Configuration: root = bab
+in breaknode
+=> [[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g], c=a, [c=b, c=d]]]
+in breaknode
+in breaknode
+in breaknode
+=> [[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]], c=a, [[c=b], c=d, [d=b], d=c, [d=e, d=f]]]
+in breaknode
+in breaknode
+in breaknode
+Breaking the root!
+Making right half
+adding last child
+adjusting self
+10
+Final Configuration: root = cbd
+in breaknode
+=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b], e=d, [e=f, e=g, e=h]]]]
+in breaknode
+in breaknode
+=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h, f=d, f=e]]]]
+in breaknode
+=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]], e=d, [[e=f], e=g, [e=h], f=d, [f=e, g=b, g=e]]]]
+in breaknode
+in breaknode
+in breaknode
+in breaknode
+=> [[[[a=b], a=c, [b=a]], b=c, [[b=d], b=e, [b=g]]], c=a, [[[c=b], c=d, [d=b]], d=c, [[d=e], d=f, [e=b]]], e=d, [[[e=f], e=g, [e=h]], f=d, [[f=e], g=b, [g=e], h=e, [h=i, i=h]]]]
+[b, d, f, g, h]
 [b, c]
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
+[a, c, d, e, g]
+[d, e]
+[h]
+[b, c, e, f]
+[]
 [b, c]
-java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 1
+[a, c, d, e, g]
