@@ -38,7 +38,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
     @Override
     public List<Value> search(Key key) throws IllegalKeyException {
         if (!(key != null)) {
-            // illegal => remember to implement it later
+            // if key is of some other type, it will throw compiler error then and there
             throw new IllegalKeyException();
         }
         if (root == null) return new ArrayList<Value>(); // empty list
@@ -97,7 +97,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
     @Override
     public void delete(Key key) throws IllegalKeyException {
         if (!(key != null)) {
-            // illegal => remember to implement it later
+            // if key is of some other type, it will throw compiler error then and there
             throw new IllegalKeyException();
         }
         pair<Key, Value> currentNode = new pair<Key, Value>(root, 0);
