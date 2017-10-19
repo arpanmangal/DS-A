@@ -10,7 +10,7 @@ import java.util.Random;
 public class StressTest {
     public static void main(String argv[]) throws Exception {
         long startTime=System.currentTimeMillis();
-        DuplicateBTree<Integer, Integer> graph = new BTree<>(100);
+        DuplicateBTree<Integer, Integer> graph = new BTree<>(6);
         int V = 1000;
         int E = 20000;
         ArrayList<ArrayList<Integer>> g = new ArrayList<>(V);

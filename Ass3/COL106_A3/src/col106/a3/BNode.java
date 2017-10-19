@@ -2,7 +2,6 @@ package col106.a3;
 
 import java.util.*;
 
-
 public class BNode<Key extends Comparable<Key>,Value> {
     private int numKeys;
     private int t;
@@ -269,16 +268,16 @@ public class BNode<Key extends Comparable<Key>,Value> {
     }
 
     // deleting a node
-    private BNode<Key, Value> boomCell(BNode<Key, Value> node, int index) {
+    private pair<Key, Value> boomCell(BNode<Key, Value> node, int index) {
         // return the modified version of node after booming the value
         // if a root, numKeys can be < t, o.w. >= t
         //System.out.println("Booming the cell: ");
         // boom it, don't care about rotation etc.
-        if (node == null) return node; // no node to boom
+        if (node == null) return new pair<Key, Value>(node, 0); // no node to boom
         if (index >= node.numKeys) {
             // cannot delete
             //System.out.println("illegal boom order");
-            return node;
+            return new pair<Key, Value>(node, 0);
         }
         // //System.out.println("" + node.Keys.get(index) + node.Values.get(index));
         if (!node.haveChildren) {
@@ -287,7 +286,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             node.numKeys--;
             node.Keys.remove(index);
             node.Values.remove(index);
-            return node;
+            return new pair<Key, Value>(node, 1);
             // for (int i = index; i < node.numKeys; i++) {
             //     Keys.
             // }
@@ -305,10 +304,10 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 // }
                 if (node.numKeys != 0) {
                     // either the toDelete key is absorbed down or is there
-                    return node; // future iterations will look after further deletion
+                    return new pair<Key, Value>(node, 0); // future iterations will look after further deletion
                 } else {
                     // the node has become empty, it must have been a root
-                    return currentNode;
+                    return new pair<Key, Value>(currentNode, 0);
                 }
                  
             }
@@ -327,11 +326,11 @@ public class BNode<Key extends Comparable<Key>,Value> {
             currentNode.Keys.remove(0);
             currentNode.Values.remove(0);
             currentNode.numKeys--;
-            return node;
+            return new pair<Key, Value>(node, 1);
         }
     }
 
-    public BNode<Key, Value> removeKey(Key key) {
+    public pair<Key, Value> removeKey(Key key) {
         // booms all required key-value pair inside itself and gives pointer to next node to process, can be itself
         // ////////System.out.println("removing the key: " + key + " from node with " + this.Keys.get(0) + this.Values.get(0));
         //System.out.println("ho -> in this iteration: " + this.toString() + " and my children's parent: ");
@@ -343,12 +342,12 @@ public class BNode<Key extends Comparable<Key>,Value> {
         if (this.numKeys == 0) {
             // nothing in here
             //System.out.println("returning null!!");
-            return null;
+            return new pair<Key, Value>(null, 0);
         }
         if (this.parentNode != null && this.numKeys < t) {
             ////////System.out.println("ha");
             //System.out.println("Node with insufficient Keys, Me: " + this.Keys.get(0) + this.Values.get(0) +" parent: "+ this.parentNode.Keys.get(0) + this.parentNode.Values.get(0));
-            return removeUnderflow(this);
+            return new pair<Key, Value>(removeUnderflow(this), 0);
             
         } else {
             //System.out.println("root or a t key node to delete, me: " + this.toString() + this.numKeys + this.children.size());
@@ -360,11 +359,11 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 //System.out.println("not in me -> see my children(0)");
                 if (this.haveChildren) {
                     //System.out.println(" going to child(0)");
-                    return this.children.get(0);
+                    return new pair<Key, Value>(this.children.get(0), 0);
                 } else {
                     // nothing to delete
                     //System.out.println("returning null");
-                    return null;
+                    return new pair<Key, Value>(null, 0);
                 }
             } else {
                 //System.out.println(this.Keys.get(succ - 1) + " " + key + " " + (this.Keys.get(succ - 1).equals(key)) + " " + key.getClass().getName() + this.Keys.get(succ - 1).getClass().getName());
@@ -381,10 +380,10 @@ public class BNode<Key extends Comparable<Key>,Value> {
                     // no one in this node
                     //System.out.println("Go to my children");
                     if (this.haveChildren) {
-                        return this.children.get(succ);
+                        return new pair<Key, Value>(this.children.get(succ), 0);
                     } else {
                         // nothing to delete
-                        return null;
+                        return new pair<Key, Value>(null, 0);
                     }
                 }
             }

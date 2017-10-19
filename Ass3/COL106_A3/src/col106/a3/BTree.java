@@ -100,8 +100,8 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             // illegal => remember to implement it later
             throw new IllegalKeyException();
         }
-        BNode<Key, Value> currentNode = root;
-        while(currentNode != null) {
+        pair<Key, Value> currentNode = new pair<Key, Value>(root, 0);
+        while(currentNode.node != null) {
             // delete until all not deleted
         /*    if (currentNode == root){
                 currentNode = currentNode.removeKey(key);
@@ -110,7 +110,8 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
                     root = currentNode;
                 }
             } else {*/
-                currentNode = currentNode.removeKey(key);
+                currentNode = currentNode.node.removeKey(key);
+                size -= currentNode.val;
         //    }
             if (root != null && root.size() == 0) {
                 // root is empty (will be empty when its children absorb it)
