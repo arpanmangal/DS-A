@@ -117,6 +117,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
                 root = root.newRoot();
             }
         }
+        if (root!=null)System.out.println("===>"+root.myassert());
     }
 
     @Override

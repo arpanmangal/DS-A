@@ -612,12 +612,20 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 //////System.out.println("empty root afer merge");
                 leftSib.parentNode = null;
                 leftSib.parentIndex = -1;
+            } else {
+                // adjust the indices of all children of the parent
+                for (int i = leftSib.parentIndex; i <= leftSib.parentNode.numKeys; i++) {
+                    leftSib.parentNode.children.get(i).parentIndex = i;
+                }
             }
             // //////System.out.println("ya ya");
             //////System.out.println(" after left merge node: " + leftSib.toString());
             // //////System.out.println("new node with first val: " + leftSib.Keys.get(0) + leftSib.Values.get(0) +
             // " mid-val " + leftSib.Keys.get(t - 1) + leftSib.Values.get(t - 1) +  " last val " + leftSib.Keys.get(2 * t - 2) + leftSib.Values.get(2 * t - 2));
             //////System.out.println("yo");
+
+            
+            
             return leftSib;
         } else {
             // have right sibling, merge it
@@ -662,6 +670,11 @@ public class BNode<Key extends Comparable<Key>,Value> {
                 //////System.out.println("empty root afer merge");
                 node.parentNode = null;
                 node.parentIndex = -1;
+            } else {
+                // adjust the indices of all children of the parent
+                for (int i = node.parentIndex; i <= node.parentNode.numKeys; i++) {
+                    node.parentNode.children.get(i).parentIndex = i;
+                }
             }
             return node;
 
@@ -716,7 +729,7 @@ public class BNode<Key extends Comparable<Key>,Value> {
             for (int i = 0; i <= this.numKeys; i++) {
                 if (!status) return status;
                 if (this.children.get(i).parentIndex != i) {
-                    //System.out.println("problematic node: "+this.toString());
+                    // System.out.println("problematic node: "+this.toString());
                     return false;
                 }
                 status = this.children.get(i).myassert();
