@@ -11,8 +11,8 @@ public class StressTest {
     public static void main(String argv[]) throws Exception {
         long startTime=System.currentTimeMillis();
         DuplicateBTree<Integer, Integer> graph = new BTree<>(4);
-        int V = 10;
-        int E = 20;
+        int V = 1000;
+        int E = 10000;
         ArrayList<ArrayList<Integer>> g = new ArrayList<>(V);
         Random r = new Random();
         for (int i = 0; i < V; i++)
@@ -23,10 +23,10 @@ public class StressTest {
             if (v1 != v2) {
                 g.get(v1).add(v2);
                 graph.insert(v1, v2);
-                System.out.println("insert " + v1 + " " + v2);
+                // System.out.println("insert " + v1 + " " + v2);
             }
         }
-        System.out.println("tree is " + graph.toString());
+        // System.out.println("tree is " + graph.toString());
         for (int i = 0; i < V; i++) {
             List<Integer> neighbourhood = graph.search(i);
             neighbourhood.sort(Integer::compareTo);
