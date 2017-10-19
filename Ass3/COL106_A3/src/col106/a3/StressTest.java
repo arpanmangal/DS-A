@@ -79,7 +79,7 @@ public class StressTest {
             }
         }
         long time=System.currentTimeMillis()-startTime;
-        System.out.println(graph.size() +" height: "+graph.height()+" graph "+graph);
+        System.out.println(graph.isEmpty() + " size: "+ graph.size() +" height: "+graph.height()+" graph "+graph);
         System.out.println("time: "+time+" millis");
     }
 }

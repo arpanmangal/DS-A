@@ -48,7 +48,6 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
     @Override
     public void insert(Key key, Value val) {
         // iterative method to insert in the node
-        ////System.out.println("told to insert " + key + " in "+root);
         boolean inserted = false;
         BNode<Key, Value> currentNode = root;
         if (root == null) {
@@ -57,36 +56,27 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             root.insert(key, val, 0);
             inserted = true;
         }
-        ////System.out.println("hi");
         while(!inserted) {
             
-            ////System.out.println("se");
             if (currentNode == null) {
                 break; // cannot be inserted
             }
-            ////System.out.println("===>"+root.myassert());
             // check if the node is to be divided
             if (currentNode.size() >= b - 1) {
                 // break the node
                 // if the broken node is the root
-                ////System.out.println("bre");
                 if (root == currentNode) {
                     root = currentNode = currentNode.breakNode();
                 } else {
                     currentNode = currentNode.breakNode();
                 }    
             }
-            ////System.out.println("getting location");
             int location = currentNode.searchVal(key);
-            ////System.out.println(location);
             if (currentNode.hasChild()) {
                 // inset into the child
-                ////System.out.println("going to child");
                 currentNode = currentNode.getChild(location);
             } else {
                 // insert right away
-                //@SuppressWarnings("unchecked") // Just for this one statement
-                ////System.out.println("inserting");
                 currentNode.insert(key, val, location);
                 inserted = true;
             }
@@ -123,8 +113,7 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
 
     @Override
     public String toString() {
-        // remember to use String Builder Later
-        if (this.isEmpty()) return "[]";
+        if (this.isEmpty()) return "[]"; // to avoid null pointer exception
         return root.toString();
     }
 }
