@@ -1,8 +1,69 @@
-tree is [[[[[[[5=45], 5=42, [5=11]], 5=33, [[5=40], 5=43, [5=31]]], 5=4, [[[5=11], 5=37, [5=46]], 5=26, [[5=3], 5=44, [5=44]]]], 5=7, [[[[5=16], 5=24, [5=4]], 5=46, [[5=27], 5=43, [5=28]]], 5=19, [[[5=33], 5=0, [5=14]], 5=45, [[5=14], 5=10, [5=43]]]]], 5=40, [[[[[5=23], 5=23, [5=32]], 5=22, [[5=14], 5=18, [5=6]]], 5=28, [[[5=45], 5=46, [5=7]], 5=39, [[5=13], 5=32, [5=16]]]], 5=42, [[[[5=20], 5=33, [5=11]], 5=20, [[5=38], 5=18, [5=49]]], 5=15, [[[5=36], 5=27, [5=7]], 5=40, [[5=36], 5=7, [5=35]]]]]], 5=46, [[[[[[5=35], 5=40, [5=11]], 5=34, [[5=38], 5=31, [5=43]]], 5=30, [[[5=21], 5=37, [5=39]], 5=25, [[5=41], 5=41, [5=18]]]], 5=39, [[[[5=40], 5=39, [5=40]], 5=47, [[5=26], 5=6, [5=35]]], 5=24, [[[5=18], 5=10, [5=6]], 5=18, [[5=4], 5=29, [5=9]]]]], 5=7, [[[[[5=43], 5=11, [5=4]], 5=30, [[5=43], 5=47, [5=40]]], 5=42, [[[5=17], 5=41, [5=15]], 5=33, [[5=39], 5=19, [5=7]]]], 5=26, [[[[5=22], 5=2, [5=44]], 5=30, [[5=19], 5=2, [5=25]]], 5=12, [[[5=14], 5=46, [5=10]], 5=32, [[5=28], 5=32, [5=45]]]]]], 5=29, [[[[[[5=7], 5=31, [5=0]], 5=7, [[5=4], 5=4, [5=14]]], 5=13, [[[5=33], 5=11, [5=19]], 5=29, [[5=27], 5=20, [5=14]]]], 5=26, [[[[5=34], 5=16, [5=16]], 5=7, [[5=46], 5=38, [5=16]]], 5=8, [[[5=44], 5=20, [5=7]], 5=36, [[5=39], 5=3, [5=6]]]]], 5=33, [[[[[5=14], 5=32, [5=12]], 5=19, [[5=40], 5=41, [5=45]]], 5=1, [[[5=13], 5=30, [5=12]], 5=37, [[5=4], 5=2, [5=10]]]], 5=26, [[[[5=6], 5=31, [5=13]], 5=33, [[5=40], 5=36, [5=23]]], 5=44, [[[5=37], 5=30, [5=36]], 5=44, [[5=8], 5=0, [5=25]], 5=12, [[5=39], 5=45, [5=20, 5=12, 5=35]]]]]]]
+=> [[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0], 2=4, [2=4, 3=2]], 3=1, [[3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]]
+ho -> in this iteration: [[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0], 2=4, [2=4, 3=2]], 3=1, [[3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]] and my children's parent: 
+root or a t key node to delete, me: [[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0], 2=4, [2=4, 3=2]], 3=1, [[3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]]12
+delete at index: 0
+3 4 false java.lang.Stringjava.lang.String
+Go to my children
+ho -> in this iteration: [[3=0, 3=0, 3=0], 4=0, [4=1, 4=1]] and my children's parent: 
+Node with insufficient Keys, Me: 40 parent: 31
+going to treat the underflow
+parentIndex: 1[[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0], 2=4, [2=4, 3=2]], 3=1, [[3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]]
+doing a right rotate
+ parent: [[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0]], 2=4, [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]]
+ho -> in this iteration: [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=0, [4=1, 4=1]] and my children's parent: 
+root or a t key node to delete, me: [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=0, [4=1, 4=1]]23
+delete at index: 1
+4 4 true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+going to succ in boom cell
+ho -> in this iteration: [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=1, [4=1]] and my children's parent: 
+root or a t key node to delete, me: [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=1, [4=1]]23
+delete at index: 1
+4 4 true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+going to succ in boom cell
+In boom cell right child has underflow!
+going to treat the underflow
+parentIndex: 2[[2=4, 3=2], 3=1, [3=0, 3=0, 3=0], 4=1, [4=1]]
+doing a right rotate
+ parent: [[2=4, 3=2], 3=1, [3=0, 3=0], 3=0, [4=1, 4=1]]
+ho -> in this iteration: [[2=4, 3=2], 3=1, [3=0, 3=0], 3=0, [4=1, 4=1]] and my children's parent: 
+root or a t key node to delete, me: [[2=4, 3=2], 3=1, [3=0, 3=0], 3=0, [4=1, 4=1]]23
+delete at index: 1
+3 4 false java.lang.Stringjava.lang.String
+Go to my children
+ho -> in this iteration: [4=1, 4=1] and my children's parent: 
+root or a t key node to delete, me: [4=1, 4=1]20
+delete at index: 1
+4 4 true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+leaf node in boom cell
+ho -> in this iteration: [4=1] and my children's parent: 
+Node with insufficient Keys, Me: 41 parent: 31
+going to treat the underflow
+parentIndex: 2[[2=4, 3=2], 3=1, [3=0, 3=0], 3=0, [4=1]]
+doing a right rotate
+ parent: [[2=4, 3=2], 3=1, [3=0], 3=0, [3=0, 4=1]]
+ho -> in this iteration: [3=0, 4=1] and my children's parent: 
+root or a t key node to delete, me: [3=0, 4=1]20
+delete at index: 1
+4 4 true java.lang.Stringjava.lang.String
+deleting inside me @ 2- 1
+Booming the cell: 
+leaf node in boom cell
+ho -> in this iteration: [3=0] and my children's parent: 
+Node with insufficient Keys, Me: 30 parent: 31
+going to treat the underflow
+parentIndex: 2[[2=4, 3=2], 3=1, [3=0], 3=0, [3=0]]
+doing merging with left sibling, my: 30
+ after left merge node: [3=0, 3=0, 3=0]
+ho -> in this iteration: [3=0, 3=0, 3=0] and my children's parent: 
+root or a t key node to delete, me: [3=0, 3=0, 3=0]30
+delete at index: 2
+3 4 false java.lang.Stringjava.lang.String
+Go to my children
 ===>true
-===>true
-===>true
-===>true
-===>true
-[]
-time: 91 millis
+=> [[[0=2, 0=4], 1=0, [2=1], 2=0, [2=0]], 2=4, [[2=4, 3=2], 3=1, [3=0, 3=0, 3=0]]]

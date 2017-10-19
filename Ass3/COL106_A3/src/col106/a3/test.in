@@ -1,20 +1,21 @@
 4
-insert 4 f
-print
-insert 3 t
-print
-insert 8 g
-print
-insert 9 k
-print
-delete 3
+insert 3 2
+insert 3 1
+insert 3 0
+insert 4 0
+insert 2 1
+insert 4 1
+insert 2 0
+insert 2 0
+insert 1 0
+insert 3 0
+insert 2 4
+insert 0 2
+insert 4 1
+insert 2 4
+insert 3 0
+insert 0 4
 print
 delete 4
-print
-delete 8
-print
-delete 0
-print
-delete 9
 print
 exit
