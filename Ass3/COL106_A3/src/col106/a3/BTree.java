@@ -91,24 +91,20 @@ public class BTree<Key extends Comparable<Key>,Value> implements DuplicateBTree<
             throw new IllegalKeyException();
         }
         pair<Key, Value> currentNode = new pair<Key, Value>(root, 0);
+        int initialSize = size;
         while(currentNode.node != null) {
             // delete until all not deleted
-        /*    if (currentNode == root){
-                currentNode = currentNode.removeKey(key);
-                if (currentNode != null) {
-                    // assign updated to root
-                    root = currentNode;
-                }
-            } else {*/
                 currentNode = currentNode.node.removeKey(key);
                 size -= currentNode.val;
-        //    }
             if (root != null && root.size() == 0) {
                 // root is empty (will be empty when its children absorb it)
                 root = root.newRoot();
             }
         }
-        // if (root!=null) System.out.println("===>"+root.myassert());
+        if (size == initialSize) {
+            // tried to delete an illegal key
+            throw new IllegalKeyException();
+        }
     }
 
     @Override

@@ -1,8 +1,5 @@
 package col106.a3;
 
-import col106.a3.StringFormatChecker;
-// import col106.a3.ta.TA_BTree;
-
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
