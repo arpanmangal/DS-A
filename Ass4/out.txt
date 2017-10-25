@@ -1,8 +1,88 @@
-ghypio s
-ghypis o
-ghypos i
-ghyios p
-ghpios y
-gypios h
-hypios g
-time: 102 millis
+bah mush
+bam hush
+bash hum
+bum hash
+bum shah
+bush ham
+ham bush
+hash bum
+hub mash
+hub sham
+hum bash
+hush bam
+hush mba
+mash hub
+mba hush
+mush bah
+shah bum
+sham hub
+-1
+-1
+ashen dupe
+aspen hued
+daphne sue
+daphne use
+deane push
+dune phase
+dune shape
+dupe ashen
+heed pusan
+heusen pad
+hued aspen
+nude phase
+nude shape
+pad heusen
+phase dune
+phase nude
+pusan heed
+push deane
+shape dune
+shape nude
+shea upend
+sue daphne
+upend shea
+use daphne
+-1
+amy sou
+amy sou
+may sou
+sam you
+sou amy
+sou amy
+sou may
+sou yam
+yam sou
+you sam
+-1
+-1
+hart his
+hath irs
+hath sir
+hath sri
+his hart
+hit rash
+irs hath
+rash hit
+sir hath
+sri hath
+-1
+linus
+-1
+day vishnu
+vishnu day
+-1
+his human
+human his
+hush main
+main hush
+-1
+acrid hannah
+anarch dinah
+arachnid han
+dinah anarch
+dirac hannah
+han arachnid
+hannah acrid
+hannah dirac
+-1
+time: 276 millis
