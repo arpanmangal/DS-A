@@ -1,19 +1,8 @@
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
--1
-time: 58 millis
+ghypio s
+ghypis o
+ghypos i
+ghyios p
+ghpios y
+gypios h
+hypios g
+time: 102 millis

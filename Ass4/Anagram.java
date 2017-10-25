@@ -56,6 +56,16 @@ public class Anagram {
         }
     }
 
+    private class pair {
+        public String prefix;
+        public String suffix;
+
+        // constructor
+        public pair(String p, String s) {
+            prefix = p;
+            suffix = s;
+        }
+    }
 
     private int vocabSize;
     private ArrayList<bucket>[] words; // stores the vocab words according to their size
@@ -83,9 +93,12 @@ public class Anagram {
 
     private ArrayList<String> getAnagrams(String s) {
         ArrayList<String> anagrams = new ArrayList<>();
+        if (s.length() > 12) return anagrams; // more than 12 letter word
 
         // get no space anagrams
         anagrams.addAll(getFirstOrderAngrms(s));
+        // get one space anagrams
+        if (s.length() >= 6) anagrams.addAll(getSecondOrderAngrms(s));
 
         Collections.sort(anagrams);
         return anagrams;
@@ -111,6 +124,52 @@ public class Anagram {
         return anagrams;
     }
 
+    private ArrayList<String> getSecondOrderAngrms(String s) {
+        // returns all 0 space anagrams of s
+        // System.out.println("in get 1st order");
+        ArrayList<String> anagrams = new ArrayList<>();
+        bucket hash = new bucket(s);
+        int size = s.length();
+
+        if (size > 12 || !hash.hash()) return anagrams; // long word or unsuccesful hash => invalid word
+        
+        ArrayList<pair> preSufArr = getPreSuffPairs(3, s);
+
+        ArrayList<bucket> buckets = words[size - 3];
+        for (int i = 0; i < buckets.size(); i++) {
+            // buckets.get(i).print();
+            // hash.print();
+            if (buckets.get(i).equalTo(hash)) {
+                // found an anagram
+                anagrams.add(buckets.get(i).word);
+            }
+        }
+        return anagrams;
+    }
+
+    private ArrayList<pair> getPreSuffPairs(int prfLen, String s) {
+        ArrayList<pair> preSufArr = new ArrayList<>();
+
+        // termination
+        if (prfLen == 0) {
+            preSufArr.add(new pair("", s)); // empty prefix and suffix as the same string
+            return preSufArr;
+        }
+        ArrayList<pair> tmp;// = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            // ith element of the string as first letter of prefix
+            tmp = getPreSuffPairs(prfLen - 1, s.substring(i + 1)); // gets the prefix, suffix pairs of substr(i+1, end) recursively => could be optimised with dp
+            
+            for (int j = 0; j < tmp.size(); j++) {
+                // append the first letter
+                // System.out.println("Debug: "+tmp.get(j).prefix+tmp.get(j).suffix);
+                tmp.get(j).prefix = s.charAt(i) + tmp.get(j).prefix;
+                tmp.get(j).suffix = s.substring(0, i) + tmp.get(j).suffix;
+            }
+            preSufArr.addAll(tmp);
+        }
+        return preSufArr;
+    }
     private void printAnagrams(ArrayList<String> list) {
         // prints the elements of the anagram list
         for (int i = 0; i < list.size(); i++) {
@@ -156,6 +215,12 @@ public class Anagram {
             findAna.printAnagrams(findAna.getAnagrams(in));
         }
 
+
+        // testing prefix-suffix
+     /*   ArrayList<pair> test = findAna.getPreSuffPairs(6, "ghypios");
+        for (int i = 0; i < test.size(); i++) {
+            System.out.println(test.get(i).prefix + " " + test.get(i).suffix);
+        }*/
         long time=System.currentTimeMillis()-startTime;
         System.out.println("time: "+time+" millis");
     }
