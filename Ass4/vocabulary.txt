@@ -1,4 +1,4 @@
-24977
+24976
 10th
 1st
 2nd
@@ -22370,7 +22370,6 @@ technocratic
 technology
 tectonic
 tecum
-ted
 ted
 teddy
 tedious
