@@ -25,10 +25,11 @@ public class Anagram {
             // hashs the contained word into the bucket
             // System.out.println("hashing " + word);
             for (int i = 0; i < word.length(); i++) {
-                if (word.charAt(i) == ' ') bucket[0]++;
-                else if (word.charAt(i) == 39) bucket[1]++;
+                // #optimisation -> probability of being a word is much more
+                if (word.charAt(i) >= 97 && word.charAt(i) <= 122) bucket[word.charAt(i) - 85]++; //word.at(i) - 97 + 12, numbers
                 else if (word.charAt(i) >= 48 && word.charAt(i) <= 57) bucket[word.charAt(i) - 46]++; //word.charAt(i) - 48 + 2, numbers
-                else if (word.charAt(i) >= 97 && word.charAt(i) <= 122) bucket[word.charAt(i) - 85]++; //word.at(i) - 97 + 12, numbers
+                else if (word.charAt(i) == 39) bucket[1]++;
+                else if (word.charAt(i) == ' ') bucket[0]++;
                 else {
                     // illegal letter
                     return false; // hash unsuccessful
@@ -56,10 +57,10 @@ public class Anagram {
             bucket diff = new bucket();
             diff.word = "";
             for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == ' ') diff.bucket[0]++;
-                else if (s.charAt(i) == 39) diff.bucket[1]++;
+                if (s.charAt(i) >= 97 && s.charAt(i) <= 122) diff.bucket[s.charAt(i) - 85]++; //s.at(i) - 97 + 12, numbers                
                 else if (s.charAt(i) >= 48 && s.charAt(i) <= 57) diff.bucket[s.charAt(i) - 46]++; //s.charAt(i) - 48 + 2, numbers
-                else if (s.charAt(i) >= 97 && s.charAt(i) <= 122) diff.bucket[s.charAt(i) - 85]++; //s.at(i) - 97 + 12, numbers
+                else if (s.charAt(i) == 39) diff.bucket[1]++;
+                else if (s.charAt(i) == ' ') diff.bucket[0]++;
                 else {
                     // illegal letter
                     return null; // hash unsuccessful
@@ -133,7 +134,7 @@ public class Anagram {
     private ArrayList<container>[] words; // stores the vocab words according to their size
     private void loadVocab(Scanner s) {
         vocabSize = s.nextInt();
-        String in = "";
+        String in;
         words = new ArrayList[10]; // for storing words of size 3 to 12;
         int hash; // value of first three characters of the string
 
