@@ -3363,4 +3363,4 @@ ttl read heigh
 -1
 -1
 -1
-time: 1518 millis
+loadTime: 103 millis and findTime: 1317 millis

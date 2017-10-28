@@ -168,10 +168,10 @@ public class Anagram {
         if (s.length() > 12 || s.length() < 3) return anagrams; // more than 12 letter word
 
         // get no space anagrams
-        anagrams.addAll(getFirstOrderAngrms(s));
+        getFirstOrderAngrms(s, anagrams);
         // get one space anagrams
-        if (s.length() >= 6) anagrams.addAll(getSecondOrderAngrms(s));
-        if (s.length() >= 9) anagrams.addAll(getThirdOrderAngrms(s));
+        if (s.length() >= 6) getSecondOrderAngrms(s, anagrams);
+        if (s.length() >= 9) getThirdOrderAngrms(s, anagrams);
         Collections.sort(anagrams);
         ArrayList<String> sortedAna = new ArrayList<>();
         if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
@@ -182,14 +182,14 @@ public class Anagram {
         }
         return sortedAna;
     }
-    private ArrayList<String> getFirstOrderAngrms(String s) {
+    private void getFirstOrderAngrms(String s, ArrayList anagrams) {
         // returns all 0 space anagrams of s
         // System.out.println("in get 1st order:"+s);
-        ArrayList<String> anagrams = new ArrayList<>();
+        // ArrayList<String> anagrams = new ArrayList<>();
         bucket hash = new bucket(s);
         int size = s.length();
 
-        if (size > 12 || size < 3 || !hash.hash()) return anagrams; // long word, short word or unsuccesful hash => invalid word
+        if (size > 12 || size < 3 || !hash.hash()) return; // long word, short word or unsuccesful hash => invalid word
         
         int hash3 = hash3(hash);
         container cont = words[size - 3].get(hash3);
@@ -204,16 +204,16 @@ public class Anagram {
                 // break;
             }
         }
-        return anagrams;
+        return;
     }
-    private ArrayList<String> getSecondOrderAngrms(String s) {
+    private void getSecondOrderAngrms(String s, ArrayList<String> anagrams) {
         // returns all 1 space anagrams of s
         // System.out.println("in get 2nd order: s = "+s);
-        ArrayList<String> anagrams = new ArrayList<>();
+        // ArrayList<String> anagrams = new ArrayList<>();
         bucket hash = new bucket(s); // redundant
         int size = s.length();
 
-        if (size < 6 || size > 12 || !hash.hash()) return anagrams; // long / short word or unsuccesful hash => invalid word
+        if (size < 6 || size > 12 || !hash.hash()) return; // long / short word or unsuccesful hash => invalid word
         
         /*for (int i = 3; i <= size - 3; i++) {
             // i is the prefix size
@@ -246,25 +246,27 @@ public class Anagram {
                 // suffix.print();
                 // System.out.println("\n");
                 // System.out.println("Prefix: "+cont.container.get(i).word+" Suffix: "+suffix.word);
-                ArrayList<String> suffAngm = new ArrayList<>();
-                suffAngm.addAll(getFirstOrderAngrms(suffix.word));
-                for (int j = 0; j < suffAngm.size(); j++) {
-                    suffAngm.set(j, cont.container.get(i).word + " " + suffAngm.get(j));
+                // ArrayList<String> suffAngm = new ArrayList<>();
+                // suffAngm.addAll(getFirstOrderAngrms(suffix.word));
+                int j = anagrams.size();
+                getFirstOrderAngrms(suffix.word, anagrams);
+                for (; j < anagrams.size(); j++) {
+                    anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
-                anagrams.addAll(suffAngm);
+                // anagrams.addAll(suffAngm);
             }
           }
         }
-        return anagrams;
+        return;
     }
-    private ArrayList<String> getThirdOrderAngrms(String s) {
+    private void getThirdOrderAngrms(String s, ArrayList<String> anagrams) {
         // returns all 1 space anagrams of s
         // System.out.println("in get 2nd order: s = "+s);
-        ArrayList<String> anagrams = new ArrayList<>();
+        // ArrayList<String> anagrams = new ArrayList<>();
         bucket hash = new bucket(s);
         int size = s.length();
 
-        if (size < 9 || size > 12 || !hash.hash()) return anagrams; // long / short word or unsuccesful hash => invalid word
+        if (size < 9 || size > 12 || !hash.hash()) return; // long / short word or unsuccesful hash => invalid word
         
         /*for (int i = 3; i <= size - 3; i++) {
             // i is the prefix size
@@ -294,17 +296,18 @@ public class Anagram {
                     continue;
                 }
                 // System.out.println("Prefix: "+buckets.get(i).word+" Suffix: "+suffix.word);
-                ArrayList<String> suffAngm = new ArrayList<>();
-                suffAngm.addAll(getFirstOrderAngrms(suffix.word));
-                suffAngm.addAll(getSecondOrderAngrms(suffix.word));
-                for (int j = 0; j < suffAngm.size(); j++) {
-                    suffAngm.set(j, cont.container.get(i).word + " " + suffAngm.get(j));
+                // ArrayList<String> suffAngm = new ArrayList<>();
+                int j = anagrams.size();
+                getFirstOrderAngrms(suffix.word, anagrams);
+                getSecondOrderAngrms(suffix.word, anagrams);
+                for (; j < anagrams.size(); j++) {
+                    anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
-                anagrams.addAll(suffAngm);
+                // anagrams.addAll(suffAngm);
             }
           }
         }
-        return anagrams;
+        return;
     }
     /*private ArrayList<pair> getPreSuffPairs(int prfLen, String s) {
         ArrayList<pair> preSufArr = new ArrayList<>();
@@ -364,6 +367,7 @@ public class Anagram {
         // load vocab
         findAna.loadVocab(vocab);
 
+        long loadTime =System.currentTimeMillis()-startTime;
         // find anagrams of input strings
         int numInputs = input.nextInt();
         String in = "";
@@ -380,7 +384,7 @@ public class Anagram {
         for (int i = 0; i < test.size(); i++) {
             System.out.println(test.get(i).prefix + " " + test.get(i).suffix);
         }*/
-        long time=System.currentTimeMillis()-startTime;
-        System.out.println("time: "+time+" millis");
+        long findTime=System.currentTimeMillis()-loadTime-startTime;
+        System.out.println("loadTime: "+loadTime+" millis and findTime: "+findTime+" millis");
     }
 }
