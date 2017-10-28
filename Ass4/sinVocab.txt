@@ -1,4 +1,4 @@
-24972
+24935
 10th
 1st
 2nd
@@ -601,7 +601,6 @@ alexandria
 alexei
 alexis
 alfalfa
-alfonso
 alfonso
 alfred
 alfredo
@@ -1548,7 +1547,6 @@ atkins
 atkinson
 atlanta
 atlantes
-atlantic
 atlantic
 atlantica
 atlantis
@@ -3553,7 +3551,6 @@ cameramen
 cameron
 cameroun
 camilla
-camilla
 camille
 camino
 camouflage
@@ -4182,7 +4179,6 @@ chestnut
 chevalier
 chevrolet
 chevron
-chevy
 chevy
 chew
 cheyenne
@@ -5361,7 +5357,6 @@ cornerstone
 cornet
 cornfield
 cornflower
-cornish
 cornish
 cornmeal
 cornstarch
@@ -6878,7 +6873,6 @@ divorcee
 divulge
 dixie
 dixieland
-dixieland
 dixon
 dizzy
 djakarta
@@ -7650,7 +7644,6 @@ emittance
 emitted
 emitter
 emitting
-emma
 emma
 emmanuel
 emmett
@@ -8806,7 +8799,6 @@ fleeing
 fleet
 fleming
 flemish
-flemish
 flesh
 fleshy
 fletch
@@ -9050,7 +9042,6 @@ fortiori
 fortitude
 fortnight
 fortran
-fortran
 fortress
 fortuitous
 fortunate
@@ -9118,7 +9109,6 @@ francis
 franciscan
 francisco
 francium
-franco
 franco
 francoise
 frangipani
@@ -10521,7 +10511,6 @@ haynes
 hays
 haystack
 hayward
-hayward
 hazard
 hazardous
 haze
@@ -11325,7 +11314,6 @@ icc
 ice
 iceberg
 icebox
-iceland
 iceland
 icelandic
 ichneumon
@@ -12383,7 +12371,6 @@ jail
 jaime
 jakarta
 jake
-jake
 jalopy
 jam
 jamaica
@@ -12715,7 +12702,6 @@ keller
 kelley
 kellogg
 kelly
-kelly
 kelp
 kelsey
 kelvin
@@ -12904,7 +12890,6 @@ kobayashi
 koch
 kochab
 kodachrome
-kodak
 kodak
 kodiak
 koenig
@@ -13308,7 +13293,6 @@ lepidolite
 leprosy
 leroy
 lesbian
-lesbian
 lesion
 leslie
 lesotho
@@ -13346,7 +13330,6 @@ levitt
 levity
 levulose
 levy
-lew
 lew
 lewd
 lewis
@@ -13748,7 +13731,6 @@ lucre
 lucretia
 lucretius
 lucy
-lucy
 ludicrous
 ludlow
 ludwig
@@ -13760,7 +13742,6 @@ luger
 luggage
 lugging
 luis
-luke
 luke
 lukemia
 lukewarm
@@ -14302,7 +14283,6 @@ maw
 mawkish
 mawr
 max
-max
 maxim
 maxima
 maximal
@@ -14574,7 +14554,6 @@ mess
 message
 messenger
 messiah
-messiah
 messieurs
 messrs
 messy
@@ -14648,7 +14627,6 @@ michelangelo
 michele
 michelin
 michelson
-michigan
 michigan
 mickelson
 mickey
@@ -15236,7 +15214,6 @@ muskox
 muskoxen
 muskrat
 muslim
-muslim
 muslin
 mussel
 must
@@ -15430,7 +15407,6 @@ ned
 nee
 need
 needful
-needham
 needham
 needle
 needlepoint
@@ -16000,7 +15976,6 @@ oilseed
 oily
 oint
 ointment
-okay
 okay
 okinawa
 oklahoma
@@ -17550,7 +17525,6 @@ portfolio
 portia
 portico
 portland
-portland
 portmanteau
 porto
 portrait
@@ -18261,7 +18235,6 @@ pyrotechnic
 pyroxene
 pyroxenite
 pyrrhic
-pyrrhic
 pythagoras
 pythagorean
 python
@@ -18397,7 +18370,6 @@ quota
 quotation
 quote
 quotient
-rabat
 rabat
 rabbet
 rabbi
@@ -19635,7 +19607,6 @@ saskatchewan
 saskatoon
 sassafras
 sat
-satan
 satan
 satanic
 satellite
@@ -20993,7 +20964,6 @@ soothsay
 soothsayer
 sop
 sophia
-sophia
 sophie
 sophism
 sophisticate
@@ -21475,7 +21445,6 @@ stegosaurus
 stein
 steinberg
 steiner
-stella
 stella
 stellar
 stem
@@ -22197,7 +22166,6 @@ tadpole
 taffeta
 taffy
 taft
-taft
 tag
 tagging
 tahiti
@@ -22759,7 +22727,6 @@ thyrotoxic
 thyroxine
 tiber
 tibet
-tibet
 tibetan
 tibia
 tic
@@ -22941,7 +22908,6 @@ topple
 topsoil
 topsy
 tor
-torah
 torah
 torch
 tore
@@ -24681,12 +24647,10 @@ woodlawn
 woodlot
 woodpeck
 woodrow
-woodrow
 woodruff
 woods
 woodshed
 woodside
-woodward
 woodward
 woodwind
 woodwork
@@ -24796,7 +24760,6 @@ xavier
 xenon
 xenophobia
 xerography
-xerox
 xerox
 xerxes
 x's
