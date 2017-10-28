@@ -114,13 +114,45 @@ public class Anagram {
         }
     }
 
+    private class container {
+        public ArrayList<bucket> container;
+
+        public container() {
+            container = new ArrayList<bucket>();
+        }
+    }
+
+    private int hash3(String s) {
+        // gives a secondary hash of a string according to its first 3 characters
+        int hash = 0;
+        // space->'0', "'"->'1',0-9->'2-11', a-z->'12-37'; 
+        for (int i = 0; i < 3; i++) {
+            if (s.charAt(i) == ' ') hash += 0;
+            else if (s.charAt(i) == 39) hash += 1 * Math.pow(38, i);
+            else if (s.charAt(i) >= 48 && s.charAt(i) <= 57) hash += (s.charAt(i) - 46) *  Math.pow(38, i); //s.charAt(i) - 48 + 2, numbers
+            else if (s.charAt(i) >= 97 && s.charAt(i) <= 122) hash += (s.charAt(i) - 85) * Math.pow(38, i); //s.at(i) - 97 + 12, numbers
+            else {
+                // illegal letter
+                return -1; // hash unsuccessful
+            }
+        }
+        return hash;
+    }
     private int vocabSize;
-    private ArrayList<bucket>[] words; // stores the vocab words according to their size
+    private ArrayList<container>[] words; // stores the vocab words according to their size
     private void loadVocab(Scanner s) {
         vocabSize = s.nextInt();
         String in = "";
         words = new ArrayList[10]; // for storing words of size 3 to 12;
-        for (int i = 0; i < 10; i++) words[i] = new ArrayList<bucket>();
+        int hash; // value of first three characters of the string
+
+        for (int i = 0; i < 10; i++) {
+            words[i] = new ArrayList<container>(60000);
+            // System.out.println(words[i].size());
+            for (int j = 0; j < 60000; j++) {
+                words[i].add(new container());
+            }
+        }
         for (int i = 0; i < vocabSize; i++) {
             // take input and store it
             in = s.next();
@@ -134,19 +166,20 @@ public class Anagram {
                 continue;
             }
             // add to appropriate place
-            words[in.length() - 3].add(cell);
+            hash = hash3(in); // returns index where to store this word
+            words[in.length() - 3].get(hash).container.add(cell);
         }
     }
 
     private ArrayList<String> getAnagrams(String s) {
         ArrayList<String> anagrams = new ArrayList<>();
-        if (s.length() > 12) return anagrams; // more than 12 letter word
+        if (s.length() > 12 || s.length() < 3) return anagrams; // more than 12 letter word
 
         // get no space anagrams
         anagrams.addAll(getFirstOrderAngrms(s));
         // get one space anagrams
-        if (s.length() >= 6) anagrams.addAll(getSecondOrderAngrms(s));
-        if (s.length() >= 9) anagrams.addAll(getThirdOrderAngrms(s));
+        // if (s.length() >= 6) anagrams.addAll(getSecondOrderAngrms(s));
+        // if (s.length() >= 9) anagrams.addAll(getThirdOrderAngrms(s));
         Collections.sort(anagrams);
         ArrayList<String> sortedAna = new ArrayList<>();
         if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
@@ -164,20 +197,23 @@ public class Anagram {
         bucket hash = new bucket(s);
         int size = s.length();
 
-        if (size > 12 || !hash.hash()) return anagrams; // long word or unsuccesful hash => invalid word
+        if (size > 12 || size < 3 || !hash.hash()) return anagrams; // long word, short word or unsuccesful hash => invalid word
         
-        ArrayList<bucket> buckets = words[size - 3];
-        for (int i = 0; i < buckets.size(); i++) {
+        int hash3 = hash3(s);
+        container cont = words[size - 3].get(hash3);
+        for (int i = 0; i < cont.container.size(); i++) {
             // buckets.get(i).print();
             // hash.print();
-            if (buckets.get(i).equalTo(hash)) {
+            if (cont.container.get(i).equalTo(hash)) {
                 // found an anagram
-                anagrams.add(buckets.get(i).word);
+                anagrams.add(cont.container.get(i).word);
+                // there's only one anagram possible
+                break;
             }
         }
         return anagrams;
     }
-    private ArrayList<String> getSecondOrderAngrms(String s) {
+    /*private ArrayList<String> getSecondOrderAngrms(String s) {
         // returns all 1 space anagrams of s
         // System.out.println("in get 2nd order: s = "+s);
         ArrayList<String> anagrams = new ArrayList<>();
@@ -196,7 +232,7 @@ public class Anagram {
         }*/
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
-        for (int p = 3; p <= size - 3; p++) {
+    /*    for (int p = 3; p <= size - 3; p++) {
             // iterate the vocab with str.len
             // System.out.println(p);
             ArrayList<bucket> buckets = words[p - 3];
@@ -240,7 +276,7 @@ public class Anagram {
         }*/
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
-        for (int p = 3; p <= size - 3; p++) {
+    /*    for (int p = 3; p <= size - 3; p++) {
             // iterate the vocab with str.len
             // System.out.println(p);
             ArrayList<bucket> buckets = words[p - 3];
@@ -265,7 +301,7 @@ public class Anagram {
             }
         }
         return anagrams;
-    }
+    }*/
     /*private ArrayList<pair> getPreSuffPairs(int prfLen, String s) {
         ArrayList<pair> preSufArr = new ArrayList<>();
 
@@ -327,7 +363,7 @@ public class Anagram {
         // find anagrams of input strings
         int numInputs = input.nextInt();
         String in = "";
-        ArrayList<String> anagrams;// = new ArrayList<>();
+        // ArrayList<String> anagrams;// = new ArrayList<>();
         for (int i = 0; i < numInputs; i++) {
             // anagrams.clear();
             in = input.next();

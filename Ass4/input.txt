@@ -1,11 +1,4 @@
-10
-shubham
-shresth
-deepanshu
-soumya
-arpan
-harshit
-sunil
-divyanshu
-himanshu
-harichandan
+3
+aaron
+2nd
+abdicate
