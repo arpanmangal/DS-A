@@ -213,7 +213,7 @@ public class Anagram {
         }
         return anagrams;
     }
-    /*private ArrayList<String> getSecondOrderAngrms(String s) {
+    private ArrayList<String> getSecondOrderAngrms(String s) {
         // returns all 1 space anagrams of s
         // System.out.println("in get 2nd order: s = "+s);
         ArrayList<String> anagrams = new ArrayList<>();
@@ -232,10 +232,11 @@ public class Anagram {
         }*/
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
-    /*    for (int p = 3; p <= size - 3; p++) {
+        for (int p = 3; p <= size - 3; p++) {
             // iterate the vocab with str.len
             // System.out.println(p);
             ArrayList<bucket> buckets = words[p - 3];
+            container cont = words[p - 3];
             for (int i = 0; i < buckets.size(); i++) {
                 // buckets.get(i).print();
                 // hash.print();
@@ -257,7 +258,7 @@ public class Anagram {
         }
         return anagrams;
     }
-    private ArrayList<String> getThirdOrderAngrms(String s) {
+    /*private ArrayList<String> getThirdOrderAngrms(String s) {
         // returns all 1 space anagrams of s
         // System.out.println("in get 2nd order: s = "+s);
         ArrayList<String> anagrams = new ArrayList<>();
