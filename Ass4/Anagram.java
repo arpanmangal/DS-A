@@ -138,9 +138,9 @@ public class Anagram {
         int hash; // value of first three characters of the string
 
         for (int i = 0; i < 10; i++) {
-            words[i] = new ArrayList<container>(60000);
+            words[i] = new ArrayList<container>(500);
             // System.out.println(words[i].size());
-            for (int j = 0; j < 60000; j++) {
+            for (int j = 0; j < 500; j++) {
                 words[i].add(new container());
             }
         }
@@ -170,7 +170,7 @@ public class Anagram {
         anagrams.addAll(getFirstOrderAngrms(s));
         // get one space anagrams
         if (s.length() >= 6) anagrams.addAll(getSecondOrderAngrms(s));
-        // if (s.length() >= 9) anagrams.addAll(getThirdOrderAngrms(s));
+        if (s.length() >= 9) anagrams.addAll(getThirdOrderAngrms(s));
         Collections.sort(anagrams);
         ArrayList<String> sortedAna = new ArrayList<>();
         if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
@@ -229,7 +229,7 @@ public class Anagram {
             // iterate the vocab with str.len
             // System.out.println(p);
             // ArrayList<bucket> buckets = words[p - 3];
-          for (int c = 0; c < 60000; c++) {
+          for (int c = 0; c < 500; c++) {
             cont = words[p - 3].get(c);
             for (int i = 0; i < cont.container.size(); i++) {
                 // buckets.get(i).print();
@@ -277,7 +277,7 @@ public class Anagram {
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
         for (int p = 3; p <= size - 3; p++) {
-          for (int c = 0; c < 60000; c++) {
+          for (int c = 0; c < 500; c++) {
             cont = words[p - 3].get(c);
             // iterate the vocab with str.len
             // System.out.println(p);
