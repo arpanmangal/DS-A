@@ -127,7 +127,7 @@ public class Anagram {
         // gives a secondary hash of a string according to its first 3 characters
         int hash = 0;
         // space->'0', "'"->'1',0-9->'2-11', a-z->'12-37'; 
-        for (int i = 0; i < 38; i++) hash += b.bucket[i];
+        for (int i = 0; i < 38; i++) hash += b.bucket[i] * i; // silly mistake to keep it just b.bucket[i]
         return hash;//s.charAt(0) + s.charAt(1) + s.charAt(2); // 122 * 3 = 366 ~ 400
     }
     private int vocabSize;
@@ -139,9 +139,9 @@ public class Anagram {
         int hash; // value of first three characters of the string
 
         for (int i = 0; i < 10; i++) {
-            words[i] = new ArrayList<container>(500);
+            words[i] = new ArrayList<container>(450);
             // System.out.println(words[i].size());
-            for (int j = 0; j < 500; j++) {
+            for (int j = 0; j < 450; j++) {
                 words[i].add(new container());
             }
         }
@@ -230,7 +230,7 @@ public class Anagram {
             // iterate the vocab with str.len
             // System.out.println(p);
             // ArrayList<bucket> buckets = words[p - 3];
-          for (int c = 0; c < 500; c++) {
+          for (int c = 0; c < 450; c++) {
             cont = words[p - 3].get(c);
             for (int i = 0; i < cont.container.size(); i++) {
                 // buckets.get(i).print();
@@ -280,7 +280,7 @@ public class Anagram {
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
         for (int p = 3; p <= size - 3; p++) {
-          for (int c = 0; c < 500; c++) {
+          for (int c = 0; c < 450; c++) {
             cont = words[p - 3].get(c);
             // iterate the vocab with str.len
             // System.out.println(p);
@@ -385,6 +385,6 @@ public class Anagram {
             System.out.println(test.get(i).prefix + " " + test.get(i).suffix);
         }*/
         long findTime=System.currentTimeMillis()-loadTime-startTime;
-        System.out.println("loadTime: "+loadTime+" millis and findTime: "+findTime+" millis");
+        System.out.println("loadTime: "+loadTime+" millis and findTime: "+findTime+" millis and totalTime: "+(loadTime+findTime)+" milis");
     }
 }
