@@ -104,7 +104,7 @@ public class Anagram {
         }
     }
 
-    private class pair {
+    /*private class pair {
         public String prefix;
         public String suffix;
 
@@ -113,7 +113,7 @@ public class Anagram {
             prefix = p;
             suffix = s;
         }
-    }
+    }*/
 
     private class container {
         public ArrayList<bucket> container;
@@ -136,7 +136,7 @@ public class Anagram {
         vocabSize = s.nextInt();
         String in;
         words = new ArrayList[10]; // for storing words of size 3 to 12;
-        int hash; // value of first three characters of the string
+        int hash; // hash3(input)
 
         for (int i = 0; i < 10; i++) {
             words[i] = new ArrayList<container>(450);
@@ -170,11 +170,11 @@ public class Anagram {
         bucket hash = new bucket(s);
         int size = s.length();
 
-        if (s.length() > 12 || s.length() < 3 || !hash.hash()) return anagrams; // long word, short word or unsuccesful hash => invalid word
-        getFirstOrderAngrms(hash, anagrams, s.length());
+        if (size > 12 || size < 3 || !hash.hash()) return anagrams; // long word, short word or unsuccesful hash => invalid word
+        getFirstOrderAngrms(hash, anagrams, size);
         // get one space anagrams
-        if (s.length() >= 6) getSecondOrderAngrms(hash, anagrams, s.length());
-        if (s.length() >= 9) getThirdOrderAngrms(hash, anagrams, s.length());
+        if (size >= 6) getSecondOrderAngrms(hash, anagrams, size);
+        if (size >= 9) getThirdOrderAngrms(hash, anagrams, size);
         Collections.sort(anagrams);
         // ArrayList<String> sortedAna = new ArrayList<>();
         // if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
