@@ -176,14 +176,14 @@ public class Anagram {
         if (size >= 6) getSecondOrderAngrms(hash, anagrams, size);
         if (size >= 9) getThirdOrderAngrms(hash, anagrams, size);
         Collections.sort(anagrams);
-        // ArrayList<String> sortedAna = new ArrayList<>();
-        // if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
-        // for (int i = 1; i < anagrams.size(); i++) {
-        //     if (!(anagrams.get(i).equals(anagrams.get(i - 1)))) {
-        //         sortedAna.add(anagrams.get(i));
-        //     }
-        // }
-        return anagrams;
+        ArrayList<String> sortedAna = new ArrayList<>();
+        if (anagrams.size() > 0) sortedAna.add(anagrams.get(0));
+        for (int i = 1; i < anagrams.size(); i++) {
+            if (!(anagrams.get(i).equals(anagrams.get(i - 1)))) {
+                sortedAna.add(anagrams.get(i));
+            }
+        }
+        return sortedAna;
     }
     private void getFirstOrderAngrms(bucket hash, ArrayList anagrams, int size) {
         // returns all 0 space anagrams of s
@@ -220,7 +220,7 @@ public class Anagram {
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
-        for (int p = 3; p <= size - 3; p++) {
+        for (int p = 3; p <= size / 2; p++) {
             // iterate the vocab with str.len
             // System.out.println(p);
             // ArrayList<bucket> buckets = words[p - 3];
@@ -244,7 +244,11 @@ public class Anagram {
                 // suffAngm.addAll(getFirstOrderAngrms(suffix.word));
                 int j = anagrams.size();
                 getFirstOrderAngrms(suffix, anagrams, size - p);
-                for (; j < anagrams.size(); j++) {
+                // prepend prefix to suffix
+                // add suffix prefix
+                int f = anagrams.size();
+                for (; j < f; j++) {
+                    anagrams.add(anagrams.get(j) + " " + cont.container.get(i).word);
                     anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
                 // anagrams.addAll(suffAngm);
@@ -264,7 +268,7 @@ public class Anagram {
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
-        for (int p = 3; p <= size - 3; p++) {
+        for (int p = 3; size - p >= 6; p++) {
           for (int c = 0; c < 450; c++) {
             cont = words[p - 3].get(c);
             // iterate the vocab with str.len
@@ -284,7 +288,7 @@ public class Anagram {
                 // ArrayList<String> suffAngm = new ArrayList<>();
                 int j = anagrams.size();
                 // getFirstOrderAngrms(suffix, anagrams, size - p); // may be redundant!!
-                if (size - p >= 6) getSecondOrderAngrms(suffix, anagrams, size - p);
+                getSecondOrderAngrms(suffix, anagrams, size - p);
                 for (; j < anagrams.size(); j++) {
                     anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
