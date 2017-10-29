@@ -13,10 +13,10 @@ public class Anagram {
         // constructors
         public bucket() {
             bucket = new byte[38]; // 0-[  == 32] 1-[' == 39], 2-11 for 0-9, 12-37 for a-z/
-            for (int i = 1; i < 38; i++) bucket[i] = 0; // don't consider space
+            // for (int i = 1; i < 38; i++) bucket[i] = 0; // don't consider space
         }
         public bucket(String s) {
-            this();
+            bucket = new byte[38];
             this.word = s;
         }
 
@@ -26,14 +26,14 @@ public class Anagram {
             // System.out.println("hashing " + word);
             for (int i = 0; i < word.length(); i++) {
                 // #optimisation -> probability of being a word is much more
-                if (word.charAt(i) >= 97 && word.charAt(i) <= 122) bucket[word.charAt(i) - 85]++; //word.at(i) - 97 + 12, numbers
-                else if (word.charAt(i) >= 48 && word.charAt(i) <= 57) bucket[word.charAt(i) - 46]++; //word.charAt(i) - 48 + 2, numbers
+                if (word.charAt(i) >= 97) bucket[word.charAt(i) - 85]++; //word.at(i) - 97 + 12, numbers
+                else if (word.charAt(i) >= 48) bucket[word.charAt(i) - 46]++; //word.charAt(i) - 48 + 2, numbers
                 else if (word.charAt(i) == 39) bucket[1]++;
-                else if (word.charAt(i) == ' ') bucket[0]++;
-                else {
-                    // illegal letter
-                    return false; // hash unsuccessful
-                }
+                else bucket[0]++; // (word.charAt(i) == ' ')
+                // else {
+                //     // illegal letter
+                //     return false; // hash unsuccessful
+                // }
             }
             return true;
         }
@@ -57,15 +57,22 @@ public class Anagram {
             bucket diff = new bucket();
             diff.word = "";
             for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) >= 97 && s.charAt(i) <= 122) diff.bucket[s.charAt(i) - 85]++; //s.at(i) - 97 + 12, numbers                
-                else if (s.charAt(i) >= 48 && s.charAt(i) <= 57) diff.bucket[s.charAt(i) - 46]++; //s.charAt(i) - 48 + 2, numbers
+                if (s.charAt(i) >= 97) diff.bucket[s.charAt(i) - 85]++; //s.at(i) - 97 + 12, numbers                
+                else if (s.charAt(i) >= 48) diff.bucket[s.charAt(i) - 46]++; //s.charAt(i) - 48 + 2, numbers
                 else if (s.charAt(i) == 39) diff.bucket[1]++;
-                else if (s.charAt(i) == ' ') diff.bucket[0]++;
-                else {
-                    // illegal letter
-                    return null; // hash unsuccessful
-                }
+                else diff.bucket[0]++; //diff.bucket[i] = this.bucket[i] - b.bucket[i]
+                // else {
+                //     // illegal letter
+                //     return null; // hash unsuccessful
+                // }
             }
+            // for (int i = 0; i < 38; i++) {
+            //     diff.bucket[i] = (byte)(this.bucket[i] - b.bucket[i]);
+            //     if (diff.bucket[i] < 0) {
+            //         return null;
+            //     }
+            // }
+
             for (int i = 1; i <= 1; i++) 
             {
                 diff.bucket[i] -= this.bucket[i]; // don't consider space !!!

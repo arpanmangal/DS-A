@@ -1,4 +1,4 @@
-24935
+24929
 10th
 1st
 2nd
@@ -759,7 +759,6 @@ alvin
 alway
 always
 alyssum
-a&m
 ama
 amadeus
 amalgam
@@ -1102,7 +1101,6 @@ anything
 anyway
 anywhere
 aorta
-a&p
 apace
 apache
 apart
@@ -1565,7 +1563,6 @@ atrocity
 atrophic
 atrophy
 atropos
-at&t
 attach
 attache
 attack
@@ -12325,7 +12322,6 @@ itinerary
 it'll
 ito
 itself
-it&t
 itt
 ivan
 ivanhoe
@@ -18548,7 +18544,6 @@ razor
 razorback
 razzle
 rca
-r&d
 reach
 reactant
 reactionary
@@ -23606,7 +23601,6 @@ usable
 usaf
 usage
 usc
-usc&gs
 usda
 use
 useful
