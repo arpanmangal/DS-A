@@ -7,33 +7,27 @@ public class Anagram {
 
     private class bucket {
         // stores the hash code of a string in form of 37 containers along with the original string
-        public int[] bucket;
+        public byte[] bucket;
         public String word;
 
         // constructors
         public bucket() {
-            bucket = new int[38]; // 0-[  == 32] 1-[' == 39], 2-11 for 0-9, 12-37 for a-z/
-            // for (int i = 1; i < 38; i++) bucket[i] = 0; // don't consider space
+            bucket = new byte[38]; // 0-[  == 32] 1-[' == 39], 2-11 for 0-9, 12-37 for a-z/, automatically initialises to zero
         }
         public bucket(String s) {
-            bucket = new int[38];
+            bucket = new byte[38];
             this.word = s;
         }
 
         // functions
         public boolean hash() {
             // hashs the contained word into the bucket
-            // System.out.println("hashing " + word);
             for (int i = 0; i < word.length(); i++) {
                 // #optimisation -> probability of being a word is much more
                 if (word.charAt(i) >= 97) bucket[word.charAt(i) - 85]++; //word.at(i) - 97 + 12, numbers
                 else if (word.charAt(i) >= 48) bucket[word.charAt(i) - 46]++; //word.charAt(i) - 48 + 2, numbers
                 else if (word.charAt(i) == 39) bucket[1]++;
                 else bucket[0]++; // (word.charAt(i) == ' ')
-                // else {
-                //     // illegal letter
-                //     return false; // hash unsuccessful
-                // }
             }
             return true;
         }
@@ -56,30 +50,15 @@ public class Anagram {
             // returns s - this
             bucket diff = new bucket();
             diff.word = "";
-            // for (int i = 0; i < s.length(); i++) {
-            //     if (s.charAt(i) >= 97) diff.bucket[s.charAt(i) - 85]++; //s.at(i) - 97 + 12, numbers                
-            //     else if (s.charAt(i) >= 48) diff.bucket[s.charAt(i) - 46]++; //s.charAt(i) - 48 + 2, numbers
-            //     else if (s.charAt(i) == 39) diff.bucket[1]++;
-            //     else(s.charAt(i) == ' ') diff.bucket[0]++;
-            //     // else {
-            //     //     // illegal letter
-            //     //     return null; // hash unsuccessful
-            //     // }
-            // }
             for (int i = 1; i < 38; i++) {
-                diff.bucket[i] = (b.bucket[i] - this.bucket[i]);
+                diff.bucket[i] = (byte)(b.bucket[i] - this.bucket[i]);
                 if (diff.bucket[i] < 0) {
-                    // System.out.println(i+" "+diff.bucket[i]+" "+this.bucket[i]+" "+b.bucket[i]);
                     return null;
                 }
             }
 
             for (int i = 1; i <= 1; i++) 
             {
-                // diff.bucket[i] -= this.bucket[i]; // don't consider space !!!
-                // if (diff.bucket[i] < 0) {
-                //     return null;
-                // }
                 for(int j = 0; j < diff.bucket[i]; j++) {
                     // add the letter diff.bucket[i] times
                         diff.word += (char)(39);
@@ -87,10 +66,6 @@ public class Anagram {
             }
             for (int i = 2; i < 12; i++) 
             {
-                // diff.bucket[i] -= this.bucket[i]; // don't consider space !!!
-                // if (diff.bucket[i] < 0) {
-                //     return null;
-                // }
                 for(int j = 0; j < diff.bucket[i]; j++) {
                     // add the letter diff.bucket[i] times
                         diff.word += (char)(i + 46);
@@ -98,31 +73,14 @@ public class Anagram {
             }
             for (int i = 12; i < 38; i++) 
             {
-                // diff.bucket[i] -= this.bucket[i]; // don't consider space !!!
-                // if (diff.bucket[i] < 0) {
-                //     return null;
-                // }
                 for(int j = 0; j < diff.bucket[i]; j++) {
                     // add the letter diff.bucket[i] times
                         diff.word += (char)(i + 85);
                 }
             }
-            // System.out.println("in diff this: "+this.print()+" hash: "+b.print()+" diff: "+diff.print());
-            // System.out.println("before return in diff.word: "+diff.word);
             return diff;
         }
     }
-
-    /*private class pair {
-        public String prefix;
-        public String suffix;
-
-        // constructor
-        public pair(String p, String s) {
-            prefix = p;
-            suffix = s;
-        }
-    }*/
 
     private class container {
         public ArrayList<bucket> container;
@@ -141,6 +99,8 @@ public class Anagram {
     }
     private int vocabSize;
     private ArrayList<container>[] words; // stores the vocab words according to their size
+
+    @SuppressWarnings("unchecked")
     private void loadVocab(Scanner s) {
         vocabSize = s.nextInt();
         String in;
@@ -149,13 +109,11 @@ public class Anagram {
 
         for (int i = 0; i < 10; i++) {
             words[i] = new ArrayList<container>(450);
-            // System.out.println(words[i].size());
             for (int j = 0; j < 450; j++) {
                 words[i].add(new container());
             }
         }
         for (int i = 0; i < vocabSize; i++) {
-            // take input and store it
             in = s.next();
             if (in.length() < 3 || in.length() > 12) {
                 // ignore
@@ -170,12 +128,6 @@ public class Anagram {
             hash = hash3(cell); // returns index where to store this word
             words[in.length() - 3].get(hash).container.add(cell);
         }
-        //  bucket a = new bucket("arpan");a.hash();
-        // bucket b = new bucket("");b.hash();
-        // bucket d = a.getDiff(b);
-        // a.print();
-        // b.print();
-        // d.print();
     }
 
     private ArrayList<String> getAnagrams(String s) {
@@ -200,63 +152,33 @@ public class Anagram {
         }
         return sortedAna;
     }
-    private void getFirstOrderAngrms(bucket hash, ArrayList anagrams, int size) {
-        // returns all 0 space anagrams of s
-        // System.out.println("in get 1st order:"+s);
-        // ArrayList<String> anagrams = new ArrayList<>();
-        // bucket hash = new bucket(s);
-        // int size = s.length();
+    private void getFirstOrderAngrms(bucket hash, ArrayList<String> anagrams, int size) {
+        // returns all 0 space anagrams of hash.word
 
-        // if (size > 12 || size < 3 || !hash.hash()) return; // long word, short word or unsuccesful hash => invalid word
-        
         int hash3 = hash3(hash);
         container cont = words[size - 3].get(hash3);
-        // System.out.println(hash3 + "" + cont.container.size());
         for (int i = 0; i < cont.container.size(); i++) {
-            // cont.container.get(i).print();
-            // hash.print();
             if (cont.container.get(i).equalTo(hash)) {
                 // found an anagram
                 anagrams.add(cont.container.get(i).word);
-                // there's only one anagram possible => foolish!!
-                // break;
             }
         }
         return;
     }
     private void getSecondOrderAngrms(bucket hash, ArrayList<String> anagrams, int size) {
-        // returns all 1 space anagrams of s
-        // System.out.println("in get 2nd order: s = "+s);
-        // ArrayList<String> anagrams = new ArrayList<>();
-        // bucket hash = new bucket(s); // redundant
-        // int size = s.length();
-
-        // if (size < 6 || size > 12 || !hash.hash()) return; // long / short word or unsuccesful hash => invalid word
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
         for (int p = 3; p <= size / 2; p++) {
             // iterate the vocab with str.len
-            // System.out.println(p);
-            // ArrayList<bucket> buckets = words[p - 3];
           for (int c = 0; c < 450; c++) {
             cont = words[p - 3].get(c);
             for (int i = 0; i < cont.container.size(); i++) {
-                // buckets.get(i).print();
-                // hash.print();
-                // cont.container.get(i).print();
-                // prefix is buckets.get(i).word
                 bucket suffix = cont.container.get(i).getDiff(hash); // => change signature to getDiff(bucket)
                 if (suffix == null) {
                     // difference not possible, prev not part of s
                     continue;
                 }
-                // System.out.println("\n");
-                // suffix.print();
-                // System.out.println("\n");
-                // System.out.println("Prefix: "+cont.container.get(i).word+" Suffix: "+suffix.word);
-                // ArrayList<String> suffAngm = new ArrayList<>();
-                // suffAngm.addAll(getFirstOrderAngrms(suffix.word));
                 int j = anagrams.size();
                 getFirstOrderAngrms(suffix, anagrams, size - p);
                 // prepend prefix to suffix
@@ -266,20 +188,13 @@ public class Anagram {
                     anagrams.add(anagrams.get(j) + " " + cont.container.get(i).word);
                     anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
-                // anagrams.addAll(suffAngm);
             }
           }
         }
         return;
     }
     private void getThirdOrderAngrms(bucket hash, ArrayList<String> anagrams, int size) {
-        // returns all 1 space anagrams of s
-        // System.out.println("in get 2nd order: s = "+s);
-        // ArrayList<String> anagrams = new ArrayList<>();
-        // bucket hash = new bucket(s);
-        // int size = s.length();
-
-        // if (size < 9 || size > 12 || !hash.hash()) return; // long / short word or unsuccesful hash => invalid word
+        // returns all 1 space anagrams of hash.word
 
         // approach => for each word in dictionary, subtract it from current word, and prepend it to the anagrams of remaining word
         container cont;
@@ -287,27 +202,18 @@ public class Anagram {
           for (int c = 0; c < 450; c++) {
             cont = words[p - 3].get(c);
             // iterate the vocab with str.len
-            // System.out.println(p);
-            // ArrayList<bucket> buckets = words[p - 3];
             for (int i = 0; i < cont.container.size(); i++) {
-                // buckets.get(i).print();
-                // hash.print();
-                // System.out.println(buckets.get(i).word);
                 // prefix is buckets.get(i).word
                 bucket suffix = cont.container.get(i).getDiff(hash);
                 if (suffix == null) {
                     // difference not possible, prev not part of s
                     continue;
                 }
-                // System.out.println("Prefix: "+buckets.get(i).word+" Suffix: "+suffix.word);
-                // ArrayList<String> suffAngm = new ArrayList<>();
                 int j = anagrams.size();
-                // getFirstOrderAngrms(suffix, anagrams, size - p); // may be redundant!!
                 getSecondOrderAngrms(suffix, anagrams, size - p);
                 for (; j < anagrams.size(); j++) {
                     anagrams.set(j, cont.container.get(i).word + " " + anagrams.get(j));
                 }
-                // anagrams.addAll(suffAngm);
             }
           }
         }
@@ -323,7 +229,7 @@ public class Anagram {
     }
 
     public static void main(String args[]) {
-        long startTime=System.currentTimeMillis();
+        // long startTime=System.currentTimeMillis();
 
         if (args.length != 2) {
             // check input
@@ -349,24 +255,18 @@ public class Anagram {
         // load vocab
         findAna.loadVocab(vocab);
 
-        long loadTime =System.currentTimeMillis()-startTime;
+        // long loadTime =System.currentTimeMillis()-startTime;
         // find anagrams of input strings
         int numInputs = input.nextInt();
         String in = "";
-        // ArrayList<String> anagrams;// = new ArrayList<>();
         for (int i = 0; i < numInputs; i++) {
             // anagrams.clear();
             in = input.next();
             findAna.printAnagrams(findAna.getAnagrams(in));
         }
 
-        
-        // testing prefix-suffix
-     /*   ArrayList<pair> test = findAna.getPreSuffPairs(6, "ghypios");
-        for (int i = 0; i < test.size(); i++) {
-            System.out.println(test.get(i).prefix + " " + test.get(i).suffix);
-        }*/
-        long findTime=System.currentTimeMillis()-loadTime-startTime;
-        System.out.println("loadTime: "+loadTime+" millis and findTime: "+findTime+" millis and totalTime: "+(loadTime+findTime)+" milis");
+        // for calculating time -> uncomment
+        // long findTime=System.currentTimeMillis()-loadTime-startTime;
+        // System.out.println("loadTime: "+loadTime+" millis and findTime: "+findTime+" millis and totalTime: "+(loadTime+findTime)+" milis");
     }
 }
