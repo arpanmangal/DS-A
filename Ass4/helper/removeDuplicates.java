@@ -13,7 +13,8 @@ public class removeDuplicates {
     String in2;
     for (int i = 1; i < size; i++) {
         in2 = s.next();
-        if (in1.equals(in2)){
+        if (in1.equals(in2) || in1.length() > 12){
+            // ignore
         } else {
             System.out.println(in1);
         }
