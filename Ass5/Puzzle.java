@@ -2,6 +2,10 @@ import java.util.*;
 
 public class Puzzle {
 
+    // most important function => but remove it
+    private void print(String s) {
+        System.out.println(s);
+    }
     private class Node {
         // a container which stores the adjacent edges of a node and their corresponding costs
         // cost[i] corresponding to Adj[i], and in terms of 1-8 which shifts
@@ -9,6 +13,8 @@ public class Puzzle {
         ArrayList<Integer> Cost;
         int distance; // distance from the source vertex, to be used in Dijkstra
 
+        int heapIndex; // index at which it is stored in the heap
+        Node previous; // pointer to previous node
         public Node() {
             // constructor
             Adj = new ArrayList<>(4);
@@ -16,10 +22,101 @@ public class Puzzle {
         }
     }
 
+    /************ HEAP ****************/
+
     private class heap {
         // maintains a min heap of nodes in order of their distances
 
     }
+    // heap for maintaing nodes & distances from source node
+    private class stringContainer {
+        // for passing strings by reference
+        String str;
+    }
+    private Node[] heap;
+    private int heapSize;
+
+    private void buildHeap(String start) {
+        heapSize = 362880; // 362880 nodes
+        Node tmp;
+        int source = -1; // initialisation to satisfy compiler
+        for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
+            tmp = graph.get(Permutations.get(i));
+            tmp.distance = Integer.MAX_VALUE;
+            tmp.previous = null;
+            tmp.heapIndex = j;
+            if (Permutations.get(i).equals(start)) {
+                // it's the source
+                tmp.distance = 0;
+                source = j;
+            }
+            heap[j] = tmp;
+        }
+        // System.out.println(source+" "+Permutations.get(source - 1));
+        percolateUp(source, heap[source]);
+        // percolateDown(1, heap[1]);
+        // for (int i = 1; i <= heapSize; i++) {
+        //     if (heap[i].distance == 0) {
+        //         print(""+i);
+        //     }
+        // }
+    }
+
+    private void percolateDown(int i, Node node) {
+        // heapSize is # elements, i is the hole,
+        // node.distance is the value to insert
+        
+        int childInx = 2 * i;
+        int j;
+        if (childInx > heapSize) {
+            heap[i] = node;
+            heap[i].heapIndex = i;
+        } else if (childInx == heapSize) {
+            if (heap[childInx].distance < node.distance) {
+                heap[i] = heap[childInx];
+                heap[i].heapIndex = i;
+                heap[childInx] = node;
+                heap[childInx].heapIndex = childInx;
+            } else {
+                heap[i] = node;
+                heap[i].heapIndex = i;
+            }
+        } else {
+            if (heap[childInx].distance < heap[childInx + 1].distance) {
+                j = childInx;
+            } else {
+                j = childInx + 1;
+            }
+            if (heap[j].distance < node.distance) {
+                heap[i] = heap[j];
+                heap[i].heapIndex = i;
+                percolateDown(j, node);
+            } else {
+                heap[i] = node;
+                heap[i].heapIndex = i;
+            }
+        }
+    }
+    private void percolateUp(int i, Node node) {
+        // print("called with "+i);
+        if (i < 1) {
+            System.out.println("error!!!");
+        }
+        int prtIdx = i / 2;
+        if (i > 1 && heap[prtIdx].distance > node.distance) {
+            // percolate up
+            heap[i] = heap[prtIdx];
+            heap[i].heapIndex = i;
+            percolateUp(prtIdx, node);
+        } else {
+            // done percolation
+            heap[i] = node;
+            heap[i].heapIndex = i;
+        }
+    }
+
+    // Edge table storing edge weights
+    int Edges[];
 
     // Hashmap storing all nodes and corresponding edges
     private HashMap<String, Node> graph;
@@ -27,7 +124,8 @@ public class Puzzle {
     public Puzzle() {
         // constructor
         graph = new HashMap<>();
-        g = new HashMap<>();
+        heap = new Node[362881]; // 362881 + 1
+
         // generatePermutations();
         Permutations = new ArrayList<>();
         permutation("123456780");
@@ -218,6 +316,20 @@ public class Puzzle {
 
         // make the class
         Puzzle puzzle = new Puzzle();
+
+        puzzle.Edges = new int[8];
+        int t = input.nextInt();
+        String start, end;
+        for (int test = 0; test < t; test++) {
+            start = input.next();
+            end = input.next();
+            for (int e = 0; e < 8; e++) {
+                puzzle.Edges[e] = input.nextInt();
+            }
+            
+            // buildHeap
+            puzzle.buildHeap(start.replace('G', '0'));
+        }
 
         long makeTime=System.currentTimeMillis()-startTime;
         System.out.println(makeTime + " millis");
