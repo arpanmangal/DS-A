@@ -10,14 +10,18 @@ public class Puzzle {
         // a container which stores the adjacent edges of a node and their corresponding costs
         // cost[i] corresponding to Adj[i], and in terms of 1-8 which shifts
         ArrayList<String> Adj;
-        ArrayList<Integer> Cost;
+        ArrayList<Character> Direction; // Direction of neighbours w.r.t to me L U R D, how will I reach my neighbours
+        ArrayList<Integer> Cost; // stores cost in form of edge label
         int distance; // distance from the source vertex, to be used in Dijkstra
 
         int heapIndex; // index at which it is stored in the heap
         Node previous; // pointer to previous node
+        char direcPrev; // my direction w.r.t. previous, how would I reach from previous
+        int edgePrev;
         public Node() {
             // constructor
             Adj = new ArrayList<>(4);
+            Direction = new ArrayList<>(4);
             Cost = new ArrayList<>(4);
         }
     }
@@ -37,6 +41,7 @@ public class Puzzle {
     private int heapSize;
 
     private void buildHeap(String start) {
+        // could be optimised by building just once and making all INF
         heapSize = 362880; // 362880 nodes
         Node tmp;
         int source = -1; // initialisation to satisfy compiler
@@ -54,6 +59,9 @@ public class Puzzle {
         }
         // System.out.println(source+" "+Permutations.get(source - 1));
         percolateUp(source, heap[source]);
+        // print(""+heapSize);
+        // deleteMin();
+        // print(""+heapSize);
         // percolateDown(1, heap[1]);
         // for (int i = 1; i <= heapSize; i++) {
         //     if (heap[i].distance == 0) {
@@ -114,6 +122,17 @@ public class Puzzle {
             heap[i].heapIndex = i;
         }
     }
+    private Node getMin() {
+        return heap[1];
+    }
+    private Node deleteMin() {
+        Node min = heap[1];
+        heap[1] = heap[heapSize]; // exchange with last element
+        heapSize--;
+        percolateDown(1, heap[1]);
+        min.heapIndex = -1; // to denote that it's not a part of heap but that of cloud
+        return min;
+    }
 
     // Edge table storing edge weights
     int Edges[];
@@ -121,10 +140,11 @@ public class Puzzle {
     // Hashmap storing all nodes and corresponding edges
     private HashMap<String, Node> graph;
     private HashMap<String, Integer> g;
-    public Puzzle() {
+    private Puzzle() {
         // constructor
         graph = new HashMap<>();
         heap = new Node[362881]; // 362881 + 1
+        bakTrk = new ArrayList<>(1000); // used for backTracking
 
         // generatePermutations();
         Permutations = new ArrayList<>();
@@ -141,7 +161,77 @@ public class Puzzle {
         // if (!graph.containsKey("123456780")) generateComponent("123456780");
         // if (!graph.containsKey("123456708")) generateComponent("123456708");
     }
+    private void solvePuzzle(String start, String end) {
+        // print(end);
+        Node min;
+        Node neigh;
+        int dist;
 
+        // get min dist from source for all
+        while(heapSize > 181441) {
+            // while List is not empty, or better one of the component is not empty
+            // remove min
+            // System.out.println(end + " " + (graph.get(end) == null));
+            if (graph.get(end).heapIndex == 1) {
+                // our string has been found
+                // backtrack();
+                // print("breaking");
+                // found a path
+                break;
+            }
+            min = deleteMin(); // v := min
+            // print("got min");
+            for (i = 0; i < min.Adj.size(); i++) {
+                // for each neighbour
+                neigh = graph.get(min.Adj.get(i)); // neighbour node
+                if (neigh.heapIndex == -1) {
+                    // part of cloud
+                    continue;
+                }
+                // !!! possible opimisation => store -1 from begining
+                // print(""+min.Cost.get(i));
+                dist = min.distance + Edges[min.Cost.get(i) - 1]; // v's distance + edge(v, n)'s weight
+                if (dist < neigh.distance) {
+                    // update it
+                    neigh.distance = dist;
+                    neigh.previous = min;
+                    neigh.direcPrev = min.Direction.get(i);
+                    neigh.edgePrev = min.Cost.get(i);
+                    percolateUp(neigh.heapIndex, neigh);
+                }
+            } 
+            // print("adjusted neigh");
+            // print(end);
+        }
+    }
+    ArrayList<String> bakTrk;
+    private void backtrack(String end) {
+        bakTrk.clear(); // code could be optimised here
+        int steps = 0;
+        // after completing dikstra,
+        if (graph.get(end).distance == Integer.MAX_VALUE) {
+            // it's a different component
+            System.out.println("-1 -1\n");
+            return;
+        }
+        
+        Node bckTrak = graph.get(end);
+        while(bckTrak.previous != null) {
+            steps++;
+            // System.out.printf("%d%c ",bckTrak.edgePrev, bckTrak.direcPrev);
+            bakTrk.add(""+bckTrak.edgePrev+bckTrak.direcPrev+" ");
+            bckTrak = bckTrak.previous;
+        }
+        System.out.println(steps + " " + graph.get(end).distance);
+        printBckTrk();
+        System.out.println();
+    }
+    private void printBckTrk() {
+        // prints the ArrayList bckTrack in reverse order
+        for (int i = bakTrk.size() - 1; i >= 0; i--) {
+            System.out.printf("%s", bakTrk.get(i));
+        }
+    }
     // temporary variables which can be used in the below function
     // private int tmp1;
     // private int tmp2;
@@ -250,25 +340,30 @@ public class Puzzle {
         // }
         i = key.indexOf('0'); // index where '0' is present
         Node node = new Node();
+        // swapChar only returns a new string and does not change key
         if (i < 6) {
             // swap with index + 3, and add to node
             node.Adj.add(swapChar(key, i, i + 3));
-            node.Cost.add(Character.getNumericValue(key.charAt(i)));
+            node.Cost.add(Character.getNumericValue(key.charAt(i + 3)));
+            node.Direction.add('U');
         }
         if (i >= 3) {
-            // swap with index + 3, and add to node
+            // swap with index - 3, and add to node
             node.Adj.add(swapChar(key, i, i - 3));
-            node.Cost.add(Character.getNumericValue(key.charAt(i)));
+            node.Cost.add(Character.getNumericValue(key.charAt(i - 3)));
+            node.Direction.add('D');
         }
         if (i % 3 < 2) {
-            // swap with index + 3, and add to node
+            // swap with index + 1, and add to node
             node.Adj.add(swapChar(key, i, i + 1));
-            node.Cost.add(Character.getNumericValue(key.charAt(i)));
+            node.Cost.add(Character.getNumericValue(key.charAt(i + 1)));
+            node.Direction.add('L');
         }
         if (i % 3 > 0) {
-            // swap with index + 3, and add to node
+            // swap with index - 1, and add to node
             node.Adj.add(swapChar(key, i, i - 1));
-            node.Cost.add(Character.getNumericValue(key.charAt(i)));
+            node.Cost.add(Character.getNumericValue(key.charAt(i - 1)));
+            node.Direction.add('R');
         }
 
         // add our node to the graph
@@ -323,12 +418,18 @@ public class Puzzle {
         for (int test = 0; test < t; test++) {
             start = input.next();
             end = input.next();
+
+            // make G as 0 for convienence
+            start = start.replace('G', '0');
+            end = end.replace('G', '0');
             for (int e = 0; e < 8; e++) {
                 puzzle.Edges[e] = input.nextInt();
             }
-            
+            // puzzle.print(end);
             // buildHeap
-            puzzle.buildHeap(start.replace('G', '0'));
+            puzzle.buildHeap(start);
+            puzzle.solvePuzzle(start, end);
+            puzzle.backtrack(end);
         }
 
         long makeTime=System.currentTimeMillis()-startTime;
