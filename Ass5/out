@@ -1,5 +1,6 @@
-time to make permutations: 20 millis
-time to make graph: 2467 millis
+time to make permutations: 19 millis
+time to make graph: 1935 millis and to hash: 137 milis and time to swap 14 milis
+time to getNum: 54 milis and time to gen: 1786 milis and Det: 36 milis and det1: 6 milis
 4 27
 8D 6R 5U 8L 
 4 0
@@ -8,4 +9,4 @@ time to make graph: 2467 millis
 
 -1 -1
 
-oneTime: 2536 millis and solveTime: 367 millis
+oneTime: 2010 millis and solveTime: 525 millis

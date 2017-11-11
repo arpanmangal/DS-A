@@ -22,9 +22,9 @@ public class Puzzle {
         int backTrackLength;
         public Node() {
             // constructor
-            Adj = new ArrayList<>(4);
-            Direction = new ArrayList<>(4);
-            Cost = new ArrayList<>(4);
+            Adj = new ArrayList<>();
+            Direction = new ArrayList<>();
+            Cost = new ArrayList<>();
         }
     }
 
@@ -164,27 +164,24 @@ public class Puzzle {
         return;
     }
 
-    String swapChar(String s, int s1, int s2) {
-        char[] str = s.toCharArray();
-        char tmp = str[s1];
-        str[s1] = str[s2];
-        str[s2] = tmp;
-        return new String(str);
-    }
-
 /***************** PERMUTATIONS GENERATED ************/
 
 
 /*********GENERATE GRAPH AND SOLVE PUZZLE *************/
     // Edge table storing edge weights
     int Edges[];
-
+long time = 0;
+long swap = 0;
+long costNum;
+long gen;
+long Det;
+long Det1;
     // Hashmap storing all nodes and corresponding edges
     private HashMap<String, Node> graph;
     private Puzzle() {
         // constructor
-        graph = new HashMap<>(1000000);
-        bkTrkPath = new ArrayList<>(1000); // used for backTracking
+        graph = new HashMap<>();
+        bkTrkPath = new ArrayList<>(100); // used for backTracking
 
         // generatePermutations();
         Permutations = new ArrayList<>(400000);
@@ -195,6 +192,12 @@ public class Puzzle {
 
         // generate the graph
          start=System.currentTimeMillis();
+         time = 0;
+         swap = 0;
+         costNum = 0;
+         gen = 0;
+         Det = 0;
+         Det1 = 0;
         for (int ix = 0; ix < Permutations.size(); ix++) {
             // System.out.println(Permutations.get(ix));
             // if (!g.containsKey(Permutations.get(ix))) {
@@ -202,45 +205,70 @@ public class Puzzle {
             // }
             generateGraph(Permutations.get(ix));
         }
-        System.out.println("time to make graph: "+(System.currentTimeMillis()-start)+" millis");
+        System.out.println("time to make graph: "+(System.currentTimeMillis()-start)+" millis and to hash: "+time+" milis and time to swap "+swap+" milis");
+        print("time to getNum: "+costNum+" milis and time to gen: "+gen+" milis and Det: "+Det+" milis and det1: "+Det1+" milis");
         // System.out.println(graph.size());
     }
     private int i;
     void generateGraph(String key) {
         // generate the neighbours of the key node
-        
+        long t = System.currentTimeMillis();
+        long det1 = System.currentTimeMillis();
         i = key.indexOf('0'); // index where '0' is present
+        Det1 += System.currentTimeMillis() - det1;
+        long dec = System.currentTimeMillis();
         Node node = new Node();
+        
+        Det += System.currentTimeMillis() - dec;
+        long num;
         // swapChar only returns a new string and does not change key
         if (i < 6) {
             // swap with index + 3, and add to node
             node.Adj.add(swapChar(key, i, i + 3));
+            num = System.currentTimeMillis();
             node.Cost.add(Character.getNumericValue(key.charAt(i + 3)));
             node.Direction.add('U');
+            costNum += System.currentTimeMillis() - num;
         }
         if (i >= 3) {
             // swap with index - 3, and add to node
             node.Adj.add(swapChar(key, i, i - 3));
+            num = System.currentTimeMillis();
             node.Cost.add(Character.getNumericValue(key.charAt(i - 3)));
             node.Direction.add('D');
+            costNum += System.currentTimeMillis() - num;
         }
         if (i % 3 < 2) {
             // swap with index + 1, and add to node
             node.Adj.add(swapChar(key, i, i + 1));
+            num = System.currentTimeMillis();
             node.Cost.add(Character.getNumericValue(key.charAt(i + 1)));
             node.Direction.add('L');
+            costNum += System.currentTimeMillis() - num;
         }
         if (i % 3 > 0) {
             // swap with index - 1, and add to node
             node.Adj.add(swapChar(key, i, i - 1));
+            num = System.currentTimeMillis();
             node.Cost.add(Character.getNumericValue(key.charAt(i - 1)));
             node.Direction.add('R');
+            costNum += System.currentTimeMillis() - num;
         }
-
+        gen += System.currentTimeMillis() -  t;
+        long s = System.currentTimeMillis();
         // add our node to the graph and heap
         graph.put(key, node);
-
+        time += System.currentTimeMillis() - s;
         return;
+    }
+    private String swapChar(String s, int s1, int s2) {
+        long st = System.currentTimeMillis();
+        char[] str = s.toCharArray();
+        char tmp = str[s1];
+        str[s1] = str[s2];
+        str[s2] = tmp;
+        swap += System.currentTimeMillis() - st;
+        return new String(str);
     }
     private void solvePuzzle(String start, String end) {
         // print(end);
