@@ -1,3 +1,5 @@
+time to make permutations: 20 millis
+time to make graph: 2467 millis
 4 27
 8D 6R 5U 8L 
 4 0
@@ -6,12 +8,4 @@
 
 -1 -1
 
-4 27
-8R 5D 6L 8U 
-4 0
-7L 5D 6L 8U 
-0 0
-
--1 -1
-
-oneTime: 2709 millis and solveTime: 757 millis
+oneTime: 2536 millis and solveTime: 367 millis

@@ -28,36 +28,16 @@ public class Puzzle {
     }
 
     /************ HEAP ****************/
-
-    private class heap {
-        // maintains a min heap of nodes in order of their distances
-
-    }
     // heap for maintaing nodes & distances from source node
-    private class stringContainer {
-        // for passing strings by reference
-        String str;
-    }
+
     private Node[] heap;
     private int heapSize;
 
     private void buildHeap() {
-        // could be optimised by building just once and making all INF
-        // heapSize = 362880; // 362880 nodes
-        // Node tmp;
-        // int source = -1; // initialisation to satisfy compiler
-        // for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
-        //     // tmp = graph.get(Permutations.get(i));
-        //     // tmp.distance = Integer.MAX_VALUE;
-        //     // tmp.previous = null;
-        //     // tmp.heapIndex = j;
-        //     // if (Permutations.get(i).equals(start)) {
-        //     //     // it's the source
-        //     //     tmp.distance = 0;
-        //     //     source = j;
-        //     // }
-        //     heap[j].heapIndex = j;
-        // }
+        // initialise heap
+        heapSize = 362880;
+        heap = new Node[362881]; // 362881 + 1
+
         int i = 1;
         for (Node value : graph.values()) {
             // iterate over all nodes in the graph
@@ -65,45 +45,21 @@ public class Puzzle {
             // value.heapIndex = i;
             i++;
         }
-        // System.out.println(source+" "+Permutations.get(source - 1));
-        // percolateUp(source, heap[source]);
-        // print(""+heapSize);
-        // deleteMin();
-        // print(""+heapSize);
-        // percolateDown(1, heap[1]);
-        // for (int i = 1; i <= heapSize; i++) {
-        //     if (heap[i].distance == 0) {
-        //         print(""+i);
-        //     }
-        // }
     }
 
     private void heapify(String start) {
         heapSize = 362880; // 362880 nodes
-        // int source = -1; // initialisation to satisfy compiler
         for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
             // tmp = graph.get(Permutations.get(i));
             heap[j].distance = Integer.MAX_VALUE;
             heap[j].previous = null;
             heap[j].backTrackLength = Integer.MAX_VALUE;
             heap[j].heapIndex = j;
-            // tmp.heapIndex = j;
-            // if (Permutations.get(i).equals(start)) {
-            //     // it's the source
-            //     tmp.distance = 0;
-            //     source = j;
-            // }
-            // heap[j] = tmp;
         }
-        // for (int i = 0, j = 1; i < heapSize; i++, j++) {
-        //     if (heap[j] == graph.get(start)) print("got it @ "+j);
-        // }
+
         Node source = graph.get(start);
         source.distance = 0;
         source.backTrackLength = 0;
-        // print(source);
-        // System.out.println(source+" "+Permutations.get(source - 1));
-        // print("calling percolate with "+graph.get(source).heapIndex+graph.get(source).previous);
         percolateUp(source.heapIndex, source);
     }
 
@@ -172,16 +128,56 @@ public class Puzzle {
         return min;
     }
 
+/******************** END HEAP **********************/
+
+/***************** GENERATE PERMUTATIONS ************/
+    // generate permutations
+    ArrayList<String> Permutations;
+
+    void permute(char[] str,int i) { 
+        if (i == 9) {// 9 is the length of perms
+            // printArray(array,length);
+            Permutations.add(new String(str));
+            return;
+        }
+        int j = i;
+        char tmp;
+        for (j = i; j < 9; j++) { 
+            // swap(array+i,array+j);
+            tmp = str[i];
+            str[i] = str[j];
+            str[j] = tmp;
+            
+            permute(str,i+1);
+            // swap(array+i,array+j);
+            tmp = str[i];
+            str[i] = str[j];
+            str[j] = tmp;
+        }
+        return;
+    }
+
+    String swapChar(String s, int s1, int s2) {
+        char[] str = s.toCharArray();
+        char tmp = str[s1];
+        str[s1] = str[s2];
+        str[s2] = tmp;
+        return new String(str);
+    }
+
+/***************** PERMUTATIONS GENERATED ************/
+
+
+/*********GENERATE GRAPH AND SOLVE PUZZLE *************/
     // Edge table storing edge weights
     int Edges[];
 
     // Hashmap storing all nodes and corresponding edges
     private HashMap<String, Node> graph;
-    // private HashMap<String, Integer> g;
     private Puzzle() {
         // constructor
         graph = new HashMap<>(1000000);
-        bakTrk = new ArrayList<>(1000); // used for backTracking
+        bkTrkPath = new ArrayList<>(1000); // used for backTracking
 
         // generatePermutations();
         Permutations = new ArrayList<>(400000);
@@ -189,10 +185,6 @@ public class Puzzle {
         long start = System.currentTimeMillis();
         permute("123456780".toCharArray(), 0);
         System.out.println("time to make permutations: "+(System.currentTimeMillis()-start)+" millis");
-        
-        // initialise heap
-        heapSize = 362880;
-        heap = new Node[362881]; // 362881 + 1
 
         // generate the graph
          start=System.currentTimeMillis();
@@ -201,10 +193,47 @@ public class Puzzle {
             // if (!g.containsKey(Permutations.get(ix))) {
                 // g.add(Permutations.get(ix));
             // }
-            generateComponent(Permutations.get(ix));
+            generateGraph(Permutations.get(ix));
         }
         System.out.println("time to make graph: "+(System.currentTimeMillis()-start)+" millis");
         // System.out.println(graph.size());
+    }
+    private int i;
+    void generateGraph(String key) {
+        // generate the neighbours of the key node
+        
+        i = key.indexOf('0'); // index where '0' is present
+        Node node = new Node();
+        // swapChar only returns a new string and does not change key
+        if (i < 6) {
+            // swap with index + 3, and add to node
+            node.Adj.add(swapChar(key, i, i + 3));
+            node.Cost.add(Character.getNumericValue(key.charAt(i + 3)));
+            node.Direction.add('U');
+        }
+        if (i >= 3) {
+            // swap with index - 3, and add to node
+            node.Adj.add(swapChar(key, i, i - 3));
+            node.Cost.add(Character.getNumericValue(key.charAt(i - 3)));
+            node.Direction.add('D');
+        }
+        if (i % 3 < 2) {
+            // swap with index + 1, and add to node
+            node.Adj.add(swapChar(key, i, i + 1));
+            node.Cost.add(Character.getNumericValue(key.charAt(i + 1)));
+            node.Direction.add('L');
+        }
+        if (i % 3 > 0) {
+            // swap with index - 1, and add to node
+            node.Adj.add(swapChar(key, i, i - 1));
+            node.Cost.add(Character.getNumericValue(key.charAt(i - 1)));
+            node.Direction.add('R');
+        }
+
+        // add our node to the graph and heap
+        graph.put(key, node);
+
+        return;
     }
     private void solvePuzzle(String start, String end) {
         // print(end);
@@ -248,9 +277,9 @@ public class Puzzle {
             // print(end);
         }
     }
-    ArrayList<String> bakTrk;
+    ArrayList<String> bkTrkPath;
     private void backtrack(String end) {
-        bakTrk.clear(); // code could be optimised here
+        bkTrkPath.clear(); // code could be optimised here
         // int steps = 0;
         // after completing dikstra,
         if (graph.get(end).distance == Integer.MAX_VALUE) {
@@ -263,7 +292,7 @@ public class Puzzle {
         while(bckTrak.previous != null) {
             // steps++;
             // System.out.printf("%d%c ",bckTrak.edgePrev, bckTrak.direcPrev);
-            bakTrk.add(""+bckTrak.edgePrev+bckTrak.direcPrev+" ");
+            bkTrkPath.add(""+bckTrak.edgePrev+bckTrak.direcPrev+" ");
             bckTrak = bckTrak.previous;
         }
         System.out.println(graph.get(end).backTrackLength + " " + graph.get(end).distance);
@@ -272,118 +301,14 @@ public class Puzzle {
     }
     private void printBckTrk() {
         // prints the ArrayList bckTrack in reverse order
-        for (int i = bakTrk.size() - 1; i >= 0; i--) {
-            System.out.printf("%s", bakTrk.get(i));
+        for (int i = bkTrkPath.size() - 1; i >= 0; i--) {
+            System.out.printf("%s", bkTrkPath.get(i));
         }
     }
-    // temporary variables which can be used in the below function
-    // private int tmp1;
-    // private int tmp2;
-    // private int tmp3;
 
-    ArrayList<String> Permutations;
-    // public  void permutation(String str) { 
-    //     permutation("", str); 
-    // }
+/******************* PUZZLE SOLVED *******************/
 
-    // private  void permutation(String prefix, String str) {
-    //     int n = str.length();
-    //     if (n == 0) Permutations.add(prefix);
-    //     else {
-    //         for (int i = 0; i < n; i++)
-    //             permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i+1, n));
-    //     }
-    // }
-
-    // generate permutations
-    void permute(char[] str,int i) { 
-        if (i == 9) {// 9 is the length of perms
-            // printArray(array,length);
-            Permutations.add(new String(str));
-            return;
-        }
-        int j = i;
-        char tmp;
-        for (j = i; j < 9; j++) { 
-            // swap(array+i,array+j);
-            tmp = str[i];
-            str[i] = str[j];
-            str[j] = tmp;
-            
-            permute(str,i+1);
-            // swap(array+i,array+j);
-            tmp = str[i];
-            str[i] = str[j];
-            str[j] = tmp;
-        }
-        return;
-    }
-    // void swap(char[] str, int i, int j);
-
-    
-    private int i;
-    void generateComponent(String key) {
-        // generate the neighbours of the key node
-        // if (graph.containsKey(key)) {
-        //     System.out.println("it already contains");
-        //     return;
-        // }
-        // System.out.println("called with key: "+key);
-        // if (key.length() != 9) {
-        //     System.out.println("error!!!");
-        //     return;
-        // }
-        
-        i = key.indexOf('0'); // index where '0' is present
-        Node node = new Node();
-        // swapChar only returns a new string and does not change key
-        if (i < 6) {
-            // swap with index + 3, and add to node
-            node.Adj.add(swapChar(key, i, i + 3));
-            node.Cost.add(Character.getNumericValue(key.charAt(i + 3)));
-            node.Direction.add('U');
-        }
-        if (i >= 3) {
-            // swap with index - 3, and add to node
-            node.Adj.add(swapChar(key, i, i - 3));
-            node.Cost.add(Character.getNumericValue(key.charAt(i - 3)));
-            node.Direction.add('D');
-        }
-        if (i % 3 < 2) {
-            // swap with index + 1, and add to node
-            node.Adj.add(swapChar(key, i, i + 1));
-            node.Cost.add(Character.getNumericValue(key.charAt(i + 1)));
-            node.Direction.add('L');
-        }
-        if (i % 3 > 0) {
-            // swap with index - 1, and add to node
-            node.Adj.add(swapChar(key, i, i - 1));
-            node.Cost.add(Character.getNumericValue(key.charAt(i - 1)));
-            node.Direction.add('R');
-        }
-
-        // add our node to the graph and heap
-        graph.put(key, node);
-
-        // System.out.println(graph.size());
-        // recurse on all edges
-        // for (int ix = 0; ix < node.Adj.size(); ix++) {
-        //     if (!graph.containsKey(node.Adj.get(ix))) {
-        //         // add its edges
-        //         // generateComponent(node.Adj.get(ix));
-        //     }
-        // }
-
-        return;
-    }
-
-    String swapChar(String s, int s1, int s2) {
-        char[] str = s.toCharArray();
-        char tmp = str[s1];
-        str[s1] = str[s2];
-        str[s2] = tmp;
-        return new String(str);
-    }
+/******************* PLAY GAME ***********************/
 
     public static void main(String args[]) {
         long startTime=System.currentTimeMillis();
