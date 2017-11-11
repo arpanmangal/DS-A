@@ -7,6 +7,12 @@
 
 -1 -1
 
+4 27
+8R 5D 6L 8U 
+4 0
+7L 5D 6L 8U 
+0 0
+
 -1 -1
 
-3213 millis
+oneTime: 2350 millis and solveTime: 727 millis

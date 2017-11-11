@@ -40,25 +40,32 @@ public class Puzzle {
     private Node[] heap;
     private int heapSize;
 
-    private void buildHeap(String start) {
+    private void buildHeap() {
         // could be optimised by building just once and making all INF
-        heapSize = 362880; // 362880 nodes
-        Node tmp;
-        int source = -1; // initialisation to satisfy compiler
-        for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
-            tmp = graph.get(Permutations.get(i));
-            tmp.distance = Integer.MAX_VALUE;
-            tmp.previous = null;
-            tmp.heapIndex = j;
-            if (Permutations.get(i).equals(start)) {
-                // it's the source
-                tmp.distance = 0;
-                source = j;
-            }
-            heap[j] = tmp;
+        // heapSize = 362880; // 362880 nodes
+        // Node tmp;
+        // int source = -1; // initialisation to satisfy compiler
+        // for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
+        //     // tmp = graph.get(Permutations.get(i));
+        //     // tmp.distance = Integer.MAX_VALUE;
+        //     // tmp.previous = null;
+        //     // tmp.heapIndex = j;
+        //     // if (Permutations.get(i).equals(start)) {
+        //     //     // it's the source
+        //     //     tmp.distance = 0;
+        //     //     source = j;
+        //     // }
+        //     heap[j].heapIndex = j;
+        // }
+        int i = 1;
+        for (Node value : graph.values()) {
+            // iterate over all nodes in the graph
+            heap[i] = value;
+            // value.heapIndex = i;
+            i++;
         }
         // System.out.println(source+" "+Permutations.get(source - 1));
-        percolateUp(source, heap[source]);
+        // percolateUp(source, heap[source]);
         // print(""+heapSize);
         // deleteMin();
         // print(""+heapSize);
@@ -68,6 +75,33 @@ public class Puzzle {
         //         print(""+i);
         //     }
         // }
+    }
+
+    private void heapify(String start) {
+        heapSize = 362880; // 362880 nodes
+        Node tmp;
+        // int source = -1; // initialisation to satisfy compiler
+        for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
+            // tmp = graph.get(Permutations.get(i));
+            heap[j].distance = Integer.MAX_VALUE;
+            heap[j].previous = null;
+            heap[j].heapIndex = j;
+            // tmp.heapIndex = j;
+            // if (Permutations.get(i).equals(start)) {
+            //     // it's the source
+            //     tmp.distance = 0;
+            //     source = j;
+            // }
+            // heap[j] = tmp;
+        }
+        // for (int i = 0, j = 1; i < heapSize; i++, j++) {
+        //     if (heap[j] == graph.get(start)) print("got it @ "+j);
+        // }
+        graph.get(start).distance = 0;
+        // print(start);
+        // System.out.println(source+" "+Permutations.get(source - 1));
+        // print("calling percolate with "+graph.get(start).heapIndex+graph.get(start).previous);
+        percolateUp(graph.get(start).heapIndex, graph.get(start));
     }
 
     private void percolateDown(int i, Node node) {
@@ -128,6 +162,7 @@ public class Puzzle {
     private Node deleteMin() {
         Node min = heap[1];
         heap[1] = heap[heapSize]; // exchange with last element
+        heap[heapSize] = min;
         heapSize--;
         percolateDown(1, heap[1]);
         min.heapIndex = -1; // to denote that it's not a part of heap but that of cloud
@@ -139,16 +174,20 @@ public class Puzzle {
 
     // Hashmap storing all nodes and corresponding edges
     private HashMap<String, Node> graph;
-    private HashMap<String, Integer> g;
+    // private HashMap<String, Integer> g;
     private Puzzle() {
         // constructor
         graph = new HashMap<>();
-        heap = new Node[362881]; // 362881 + 1
         bakTrk = new ArrayList<>(1000); // used for backTracking
 
         // generatePermutations();
         Permutations = new ArrayList<>();
         permutation("123456780");
+
+        // initialise heap
+        heapSize = 362880;
+        heap = new Node[362881]; // 362881 + 1
+
         // generate the graph
         for (int ix = 0; ix < Permutations.size(); ix++) {
             // System.out.println(Permutations.get(ix));
@@ -158,8 +197,6 @@ public class Puzzle {
             generateComponent(Permutations.get(ix));
         }
         System.out.println(graph.size());
-        // if (!graph.containsKey("123456780")) generateComponent("123456780");
-        // if (!graph.containsKey("123456708")) generateComponent("123456708");
     }
     private void solvePuzzle(String start, String end) {
         // print(end);
@@ -174,8 +211,6 @@ public class Puzzle {
             // System.out.println(end + " " + (graph.get(end) == null));
             if (graph.get(end).heapIndex == 1) {
                 // our string has been found
-                // backtrack();
-                // print("breaking");
                 // found a path
                 break;
             }
@@ -366,7 +401,7 @@ public class Puzzle {
             node.Direction.add('R');
         }
 
-        // add our node to the graph
+        // add our node to the graph and heap
         graph.put(key, node);
 
         // System.out.println(graph.size());
@@ -412,9 +447,14 @@ public class Puzzle {
         // make the class
         Puzzle puzzle = new Puzzle();
 
+        // build heap
+        puzzle.buildHeap();
+
         puzzle.Edges = new int[8];
         int t = input.nextInt();
         String start, end;
+
+        long oneTime=System.currentTimeMillis()-startTime;
         for (int test = 0; test < t; test++) {
             start = input.next();
             end = input.next();
@@ -427,12 +467,12 @@ public class Puzzle {
             }
             // puzzle.print(end);
             // buildHeap
-            puzzle.buildHeap(start);
+            puzzle.heapify(start);
             puzzle.solvePuzzle(start, end);
             puzzle.backtrack(end);
         }
 
-        long makeTime=System.currentTimeMillis()-startTime;
-        System.out.println(makeTime + " millis");
+        long solveTime=System.currentTimeMillis()-startTime-oneTime;
+        System.out.println("oneTime: "+ oneTime + " millis and solveTime: "+solveTime+" millis");
     }
 }
