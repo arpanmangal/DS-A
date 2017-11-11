@@ -18,6 +18,7 @@ public class Puzzle {
         Node previous; // pointer to previous node
         char direcPrev; // my direction w.r.t. previous, how would I reach from previous
         int edgePrev;
+        int backTrackLength;
         public Node() {
             // constructor
             Adj = new ArrayList<>(4);
@@ -79,12 +80,12 @@ public class Puzzle {
 
     private void heapify(String start) {
         heapSize = 362880; // 362880 nodes
-        Node tmp;
         // int source = -1; // initialisation to satisfy compiler
         for (int i = 0, j = 1; i < heapSize; i++, j++) { // j = i + 1
             // tmp = graph.get(Permutations.get(i));
             heap[j].distance = Integer.MAX_VALUE;
             heap[j].previous = null;
+            heap[j].backTrackLength = Integer.MAX_VALUE;
             heap[j].heapIndex = j;
             // tmp.heapIndex = j;
             // if (Permutations.get(i).equals(start)) {
@@ -97,11 +98,13 @@ public class Puzzle {
         // for (int i = 0, j = 1; i < heapSize; i++, j++) {
         //     if (heap[j] == graph.get(start)) print("got it @ "+j);
         // }
-        graph.get(start).distance = 0;
-        // print(start);
+        Node source = graph.get(start);
+        source.distance = 0;
+        source.backTrackLength = 0;
+        // print(source);
         // System.out.println(source+" "+Permutations.get(source - 1));
-        // print("calling percolate with "+graph.get(start).heapIndex+graph.get(start).previous);
-        percolateUp(graph.get(start).heapIndex, graph.get(start));
+        // print("calling percolate with "+graph.get(source).heapIndex+graph.get(source).previous);
+        percolateUp(source.heapIndex, source);
     }
 
     private void percolateDown(int i, Node node) {
@@ -231,12 +234,13 @@ public class Puzzle {
                 // !!! possible opimisation => store -1 from begining
                 // print(""+min.Cost.get(i));
                 dist = min.distance + Edges[min.Cost.get(i) - 1]; // v's distance + edge(v, n)'s weight
-                if (dist < neigh.distance) {
-                    // update it
+                if (dist < neigh.distance || dist == neigh.distance && min.backTrackLength < neigh.backTrackLength) {
+                    // // My neighbour has a shorter path through me
                     neigh.distance = dist;
                     neigh.previous = min;
                     neigh.direcPrev = min.Direction.get(i);
                     neigh.edgePrev = min.Cost.get(i);
+                    neigh.backTrackLength = min.backTrackLength + 1; // one step more
                     percolateUp(neigh.heapIndex, neigh);
                 }
             } 
@@ -247,7 +251,7 @@ public class Puzzle {
     ArrayList<String> bakTrk;
     private void backtrack(String end) {
         bakTrk.clear(); // code could be optimised here
-        int steps = 0;
+        // int steps = 0;
         // after completing dikstra,
         if (graph.get(end).distance == Integer.MAX_VALUE) {
             // it's a different component
@@ -257,12 +261,12 @@ public class Puzzle {
         
         Node bckTrak = graph.get(end);
         while(bckTrak.previous != null) {
-            steps++;
+            // steps++;
             // System.out.printf("%d%c ",bckTrak.edgePrev, bckTrak.direcPrev);
             bakTrk.add(""+bckTrak.edgePrev+bckTrak.direcPrev+" ");
             bckTrak = bckTrak.previous;
         }
-        System.out.println(steps + " " + graph.get(end).distance);
+        System.out.println(graph.get(end).backTrackLength + " " + graph.get(end).distance);
         printBckTrk();
         System.out.println();
     }
