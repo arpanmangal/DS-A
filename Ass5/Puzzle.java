@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class Puzzle {
 
@@ -73,7 +74,8 @@ public class Puzzle {
             heap[i] = node;
             heap[i].heapIndex = i;
         } else if (childInx == heapSize) {
-            if (heap[childInx].distance < node.distance) {
+            if (heap[childInx].distance < node.distance || 
+               (heap[childInx].distance == node.distance && heap[childInx].backTrackLength < node.backTrackLength)) {
                 heap[i] = heap[childInx];
                 heap[i].heapIndex = i;
                 heap[childInx] = node;
@@ -83,12 +85,14 @@ public class Puzzle {
                 heap[i].heapIndex = i;
             }
         } else {
-            if (heap[childInx].distance < heap[childInx + 1].distance) {
+            if (heap[childInx].distance < heap[childInx + 1].distance ||
+               (heap[childInx].distance == heap[childInx + 1].distance && heap[childInx].backTrackLength < heap[childInx + 1].backTrackLength)) {
                 j = childInx;
             } else {
                 j = childInx + 1;
             }
-            if (heap[j].distance < node.distance) {
+            if (heap[j].distance < node.distance ||
+               (heap[j].distance == node.distance && heap[j].backTrackLength < node.backTrackLength)) {
                 heap[i] = heap[j];
                 heap[i].heapIndex = i;
                 percolateDown(j, node);
@@ -100,11 +104,14 @@ public class Puzzle {
     }
     private void percolateUp(int i, Node node) {
         // print("called with "+i);
+        // print("" + (node == null));
         if (i < 1) {
             System.out.println("error!!!");
         }
         int prtIdx = i / 2;
-        if (i > 1 && heap[prtIdx].distance > node.distance) {
+        boolean small = (i > 1 && (heap[prtIdx].distance > node.distance ||
+                        (heap[prtIdx].distance == node.distance && heap[prtIdx].backTrackLength > node.backTrackLength))) ? true : false;
+        if (small) {
             // percolate up
             heap[i] = heap[prtIdx];
             heap[i].heapIndex = i;
@@ -256,15 +263,15 @@ public class Puzzle {
             for (i = 0; i < min.Adj.size(); i++) {
                 // for each neighbour
                 neigh = graph.get(min.Adj.get(i)); // neighbour node
+                dist = min.distance + Edges[min.Cost.get(i) - 1]; // v's distance + edge(v, n)'s weight
                 if (neigh.heapIndex == -1) {
                     // part of cloud
                     continue;
                 }
                 // !!! possible opimisation => store -1 from begining
                 // print(""+min.Cost.get(i));
-                dist = min.distance + Edges[min.Cost.get(i) - 1]; // v's distance + edge(v, n)'s weight
                 if (dist < neigh.distance || dist == neigh.distance && min.backTrackLength < neigh.backTrackLength) {
-                    // // My neighbour has a shorter path through me
+                    // My neighbour has a shorter path through me
                     neigh.distance = dist;
                     neigh.previous = min;
                     neigh.direcPrev = min.Direction.get(i);
@@ -310,7 +317,7 @@ public class Puzzle {
 
 /******************* PLAY GAME ***********************/
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException {
         long startTime=System.currentTimeMillis();
 
         if (args.length != 2) {
@@ -319,16 +326,14 @@ public class Puzzle {
             System.exit(1);
         }
 
-        Scanner input = new Scanner(System.in); // change it later
-		// try
-	    // {
-        //     input = new Scanner(new File(args[0])); // input.txt
-	    // }
-	    // catch (IOException e)  
-	    // {
-	    //     System.out.println(e);
-	    //     System.exit(1); // exit
-        // }
+        Scanner input = new Scanner(new File(args[0])); // change it later
+
+        // Creating a File object that represents the disk file.
+        PrintStream out = new PrintStream(new File(args[1]));
+ 
+        // Assign out to output stream
+        System.setOut(out);
+
 
         // make the class
         Puzzle puzzle = new Puzzle();
